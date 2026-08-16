@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>铁道运输学院 · 启程 — 湖南高速铁路职业技术学院</title>
+<style>
+/* ============================================================
+   ROOT & RESET
+   ============================================================ */
+:root {
+    --blue: #1B3A5C;
+    --blue-light: #2A5A8C;
+    --red: #CC2936;
+    --gold: #C8963E;
+    --cream: #F5F0E8;
+    --bg: #F8F6F1;
+    --white: #FFFFFF;
+    --text: #2C2C2C;
+    --text-light: #5A5A5A;
+    --border: #E0DCD5;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    --radius: 12px;
+    --font: "PingFang SC","Microsoft YaHei","Hiragino Sans GB",-apple-system,sans-serif;
+    /* 铁路风景主题色 */
+    --mt-green: #4A7C59;
+    --mt-blue: #3A6B8C;
+    --bridge-steel: #6B7B8D;
+    --tunnel-dark: #2C3036;
+    --city-warm: #D4A76A;
+    --track-height: 96px;
+}
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:70px; }
+body {
+    font-family:var(--font); color:var(--text); background:var(--bg);
+    line-height:1.7; padding-bottom:var(--track-height);
+    overflow-x:hidden;
+}
+
+/* ============================================================
+   BOTTOM TRACK & TRAIN (fixed)
+   ============================================================ */
+.track-zone {
+    position:fixed; bottom:0; left:0; right:0; height:var(--track-height);
+    z-index:150; pointer-events:none;
+}
+.track-zone .gravel {
+    position:absolute; inset:0; background:
+        repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(139,119,101,.08) 8px, rgba(139,119,101,.08) 9px),
+        linear-gradient(180deg, #D4C5B2 0%, #C7B59E 40%, #BAAB95 100%);
+    border-top:2px solid rgba(0,0,0,.12);
+}
+/* 钢轨 */
+.rail-top, .rail-bottom {
+    position:absolute; left:0; right:0; height:4px;
+    background:linear-gradient(180deg, #9E9E9E, #BDBDBD 50%, #757575);
+    border-radius:2px;
+}
+.rail-top { top:14px; }
+.rail-bottom { top:38px; }
+/* 枕木 */
+.sleeper {
+    position:absolute; bottom:0; width:6px; height:56px;
+    background:linear-gradient(180deg, #8D6E63, #6D4C41);
+    border-radius:3px; opacity:0.6;
+}
+/* 列车容器 */
+.train-wrap {
+    position:absolute; bottom:10px; left:0;
+    transform:translateX(0); z-index:10;
+    will-change:transform; transition:none;
+}
+/* ============================================================
+   FUXING HAO TRAIN SVG
+   ============================================================ */
+.train-svg { width:440px; height:76px; display:block; }
+
+/* 信号灯 */
+.signal-post {
+    position:absolute; bottom:56px; width:30px; height:60px; z-index:5;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+}
+.signal-post .post { width:4px; height:30px; background:#555; border-radius:2px; }
+.signal-post .light {
+    width:16px; height:16px; border-radius:50%; background:#333;
+    box-shadow:0 0 6px rgba(0,0,0,.3); transition:all .6s;
+}
+.signal-post .light.red { background:#D32F2F; box-shadow:0 0 12px rgba(211,47,47,.6); }
+.signal-post .light.yellow { background:#F9A825; box-shadow:0 0 12px rgba(249,168,37,.6); }
+.signal-post .light.green { background:#388E3C; box-shadow:0 0 12px rgba(56,142,60,.6); }
+
+/* 里程标(底部标签) */
+.mile-marker {
+    position:absolute; bottom:58px; font-size:10px; color:rgba(0,0,0,.4);
+    font-weight:700; letter-spacing:1px; white-space:nowrap;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar {
+    position:sticky; top:0; z-index:100;
+    background:linear-gradient(135deg,var(--blue),#102844);
+    padding:0 24px; height:60px;
+    display:flex; align-items:center; justify-content:space-between;
+    box-shadow:0 2px 16px rgba(0,0,0,0.3);
+}
+.navbar .logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.navbar .logo img { height:36px; width:auto; }
+.navbar .logo .divider { width:1px; height:26px; background:rgba(255,255,255,.3); }
+.navbar .logo span { color:#fff; font-size:15px; font-weight:600; letter-spacing:1px; white-space:nowrap; }
+.navbar .links { display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
+.navbar .links a {
+    color:rgba(255,255,255,.8); text-decoration:none;
+    font-size:13px; padding:5px 12px; border-radius:5px;
+    transition:all .2s; white-space:nowrap; cursor:pointer;
+}
+.navbar .links a:hover,.navbar .links a.active { color:#fff; background:rgba(255,255,255,.15); }
+.nav-toggle { display:none; background:none; border:none; color:#fff; font-size:24px; cursor:pointer; }
+
+/* ============================================================
+   HERO - 出发站台
+   ============================================================ */
+.hero {
+    position:relative; min-height:500px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding:70px 24px 90px; overflow:hidden;
+    background:linear-gradient(180deg, #0D2B4A 0%, #153A60 40%, #1F5480 70%, #2E7DAA 100%);
+    color:#fff;
+}
+.hero .stars { position:absolute; inset:0; opacity:0.15; }
+.hero .stars span {
+    position:absolute; width:2px; height:2px; background:#fff; border-radius:50%;
+    animation:twinkle 3s infinite alternate;
+}
+@keyframes twinkle { to { opacity:0.3; } }
+.hero .mountain-bg {
+    position:absolute; bottom:0; left:0; right:0; height:140px;
+    background:
+        /* 远山 */
+        linear-gradient(175deg, transparent 35%, rgba(42,82,110,.6) 36%, rgba(42,82,110,.6) 38%, transparent 39%),
+        linear-gradient(185deg, transparent 50%, rgba(28,60,88,.8) 51%, rgba(28,60,88,.8) 53%, transparent 54%),
+        /* 近山 */
+        linear-gradient(178deg, transparent 62%, rgba(22,44,66,.9) 63%, rgba(22,44,66,.9) 70%, transparent 71%);
+}
+.hero .platform {
+    position:absolute; bottom:0; left:20%; width:60%; height:8px;
+    background:linear-gradient(90deg, transparent, var(--cream) 20%, var(--cream) 80%, transparent);
+    border-radius:4px 4px 0 0; opacity:0.7;
+}
+.hero .badge {
+    display:inline-block; background:var(--gold); color:#fff;
+    font-size:12px; padding:4px 16px; border-radius:20px; margin-bottom:20px;
+    letter-spacing:3px; font-weight:600; position:relative;
+}
+.hero h1 { font-size:clamp(30px,6vw,52px); font-weight:800; letter-spacing:2px; position:relative; }
+.hero .sub { font-size:clamp(14px,2vw,17px); opacity:0.85; max-width:600px; margin:10px auto 28px; position:relative; }
+.hero .stats { display:flex; gap:40px; justify-content:center; flex-wrap:wrap; position:relative; }
+.hero .stat { text-align:center; }
+.hero .stat .num { font-size:clamp(26px,4vw,40px); font-weight:900; color:var(--gold); }
+.hero .stat .label { font-size:12px; opacity:0.6; margin-top:4px; }
+
+/* ============================================================
+   SCENERY SECTION TRANSITIONS
+   ============================================================ */
+/* 每个section有独特的铁路风景主题 */
+.section-wrapper { position:relative; }
+.section-wrapper::before {
+    content:''; position:absolute; left:0; right:0; height:60px; top:-1px;
+    z-index:1; pointer-events:none;
+}
+/* 山区 → 学院简介 */
+.scene-mountain { background:linear-gradient(180deg, var(--bg) 0%, #E8EDEF 20%, #DDE6EA 100%); }
+.scene-mountain::before {
+    background:linear-gradient(180deg, transparent, rgba(74,124,89,.04) 30%, rgba(74,124,89,.08));
+    height:100px;
+}
+/* 桥梁 → 学生组织 */
+.scene-bridge { background:linear-gradient(180deg, #E9EEF2 0%, #DFE7EC 50%, var(--bg) 100%); }
+.scene-bridge::before {
+    background:linear-gradient(180deg, transparent, rgba(107,123,141,.06));
+    height:80px;
+}
+/* 隧道 → 竞赛资源 */
+.scene-tunnel { background:linear-gradient(180deg, #EAECEF 0%, #DDE1E6 40%, var(--bg) 100%); }
+.scene-tunnel::before {
+    background:linear-gradient(180deg, transparent, rgba(44,48,54,.05));
+    height:80px;
+}
+/* 城市 → 优秀毕业生 */
+.scene-city { background:linear-gradient(180deg, #F3F0EA 0%, #EDE6D8 40%, var(--bg) 100%); }
+.scene-city::before {
+    background:linear-gradient(180deg, transparent, rgba(212,167,106,.06));
+    height:80px;
+}
+/* 枢纽 → 荣誉 */
+.scene-hub { background:linear-gradient(180deg, #EFF0F2 0%, var(--bg) 100%); }
+
+/* ============================================================
+   SECTION
+   ============================================================ */
+.section { max-width:1080px; margin:0 auto; padding:60px 24px; position:relative; }
+/* 铁轨风格标题下划线 */
+.rail-underline {
+    display:block; width:60px; height:3px; margin:12px auto 6px;
+    background: repeating-linear-gradient(90deg, var(--red) 0px, var(--red) 16px, var(--cream) 16px, var(--cream) 20px);
+    border-radius:2px;
+}
+.section-title {
+    font-size:28px; font-weight:700; color:var(--blue); text-align:center; margin-bottom:4px;
+}
+.section-sub { text-align:center; color:var(--text-light); margin-bottom:36px; font-size:14px; }
+
+/* 站点标识 */
+.station-tag {
+    display:inline-flex; align-items:center; gap:6px; font-size:11px;
+    color:var(--text-light); letter-spacing:2px; font-weight:600;
+}
+.station-tag::before {
+    content:''; display:inline-block; width:8px; height:8px; border-radius:50%;
+    background:var(--red);
+}
+
+/* ============================================================
+   STAGGERED CARD LAYOUT
+   ============================================================ */
+.card-grid { display:grid; grid-template-columns:1fr; gap:22px; max-width:900px; margin:0 auto; }
+.card-row { display:flex; align-items:flex-start; gap:0; }
+.card-row:nth-child(odd) { flex-direction:row; }
+.card-row:nth-child(even) { flex-direction:row-reverse; }
+
+.card {
+    width:76%; background:var(--white); border-radius:var(--radius); padding:22px;
+    box-shadow:var(--shadow); cursor:pointer; position:relative;
+    transition:transform .25s,box-shadow .25s;
+}
+.card:hover { transform:translateY(-4px); box-shadow:0 12px 28px rgba(0,0,0,0.12); }
+.card-row:nth-child(odd) .card { border-left:4px solid var(--blue); }
+.card-row:nth-child(even) .card { border-right:4px solid var(--blue); }
+
+.card .icon-tag {
+    display:inline-block; font-size:11px; font-weight:700;
+    padding:3px 10px; border-radius:4px; color:#fff; margin-bottom:10px;
+}
+.tag-red { background:var(--red); }
+.tag-blue { background:var(--blue-light); }
+.tag-gold { background:var(--gold); }
+.card h3 { font-size:15px; margin-bottom:6px; color:var(--blue); }
+.card p { font-size:13px; color:var(--text-light); line-height:1.6; }
+.card .meta { font-size:11px; color:var(--text-light); margin-top:8px; padding-top:8px; border-top:1px solid var(--border); }
+.card .card-arrow {
+    position:absolute; right:14px; top:50%; transform:translateY(-50%);
+    font-size:16px; color:var(--blue-light); opacity:0; transition:all .2s;
+}
+.card:hover .card-arrow { opacity:1; right:10px; }
+
+/* 卡片间的铁路装饰间距 */
+.card-gap {
+    flex-shrink:0; width:24%; display:flex; align-items:center; justify-content:center;
+    min-height:40px;
+}
+.card-gap .rail-dot {
+    width:4px; height:20px; background:var(--gold); border-radius:2px;
+    position:relative;
+}
+.card-gap .rail-dot::before, .card-gap .rail-dot::after {
+    content:''; position:absolute; left:50%; width:1px; background:var(--border);
+}
+.card-gap .rail-dot::before { top:-28px; height:24px; }
+.card-gap .rail-dot::after { bottom:-28px; height:24px; }
+
+/* ============================================================
+   INTRO (学院简介 - 山形背景)
+   ============================================================ */
+.intro-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:900px; margin:0 auto; }
+.intro-card {
+    background:var(--white); border-radius:var(--radius); padding:28px;
+    box-shadow:var(--shadow); position:relative; overflow:hidden;
+}
+.intro-card::after {
+    content:''; position:absolute; top:0; right:0; width:4px; height:100%;
+    background:linear-gradient(180deg, var(--blue), var(--mt-green), var(--gold));
+    border-radius:0 2px 2px 0;
+}
+.intro-card h3 { font-size:16px; color:var(--blue); margin-bottom:8px; }
+.intro-card p,.intro-card li { font-size:13px; color:var(--text-light); }
+.intro-card ul { padding-left:18px; }
+
+/* ============================================================
+   GRADUATES
+   ============================================================ */
+.grad-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:20px; max-width:900px; margin:0 auto; }
+.grad-card {
+    background:var(--white); border-radius:var(--radius); padding:24px;
+    box-shadow:var(--shadow); display:flex; gap:14px; align-items:flex-start;
+    position:relative;
+}
+.grad-card::before {
+    content:''; position:absolute; top:0; left:0; width:100%; height:3px;
+    background:linear-gradient(90deg, var(--blue), var(--gold));
+    border-radius:3px 3px 0 0;
+}
+.grad-card .avatar {
+    width:52px; height:52px; border-radius:50%;
+    background:linear-gradient(135deg,var(--blue),var(--blue-light));
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:20px; font-weight:700; flex-shrink:0;
+}
+.grad-card .info h3 { font-size:15px; color:var(--blue); margin-bottom:3px; }
+.grad-card .info .job { font-size:12px; color:var(--red); font-weight:600; margin-bottom:4px; }
+.grad-card .info p { font-size:12px; color:var(--text-light); line-height:1.5; }
+
+/* ============================================================
+   HONOR TABLE (铁轨风格)
+   ============================================================ */
+.honor-wrap { max-width:900px; margin:0 auto; }
+.honor-list { background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+.honor-row { display:grid; grid-template-columns:1fr 120px 180px; gap:12px; padding:15px 24px; align-items:center; border-bottom:1px solid var(--border); }
+.honor-row:last-child { border-bottom:none; }
+.honor-row.header { background:var(--blue); color:#fff; font-weight:600; font-size:12px; }
+.honor-row .title { font-size:13px; }
+.honor-row .level { font-size:12px; text-align:center; }
+.honor-row .level .tag { display:inline-block; padding:2px 10px; border-radius:4px; font-size:11px; font-weight:600; }
+.honor-row .year { font-size:12px; color:var(--text-light); text-align:center; }
+/* 荣誉列表边角的信号灯 */
+.honor-wrap .corner-light {
+    position:absolute; top:-8px; right:-8px; width:16px; height:16px; border-radius:50%;
+    background:var(--gold); box-shadow:0 0 8px rgba(200,150,62,.4);
+}
+
+/* ============================================================
+   MODAL SYSTEM
+   ============================================================ */
+.modal-overlay {
+    position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.55);
+    display:flex; align-items:flex-start; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity .25s;
+    overflow-y:auto; padding:20px;
+}
+.modal-overlay.active { opacity:1; pointer-events:auto; }
+.modal-body {
+    background:var(--white); border-radius:var(--radius); max-width:780px; width:100%;
+    margin:40px auto; box-shadow:0 20px 60px rgba(0,0,0,0.35);
+    transform:translateY(30px); transition:transform .3s;
+}
+.modal-overlay.active .modal-body { transform:translateY(0); }
+.modal-header {
+    padding:18px 24px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:14px;
+}
+.modal-header .modal-logo { height:32px; }
+.modal-header .modal-title-grp { flex:1; }
+.modal-header h2 { font-size:18px; color:var(--blue); }
+.modal-header .modal-tag {
+    display:inline-block; font-size:10px; padding:2px 8px; border-radius:3px;
+    color:#fff; font-weight:600; margin-top:4px;
+}
+.modal-close {
+    background:none; border:none; font-size:22px; color:var(--text-light);
+    cursor:pointer; width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; transition:background .2s;
+}
+.modal-close:hover { background:var(--cream); }
+.modal-content { padding:22px 24px 30px; }
+.modal-content h3 { font-size:15px; color:var(--blue); margin:20px 0 8px; }
+.modal-content h3:first-child { margin-top:0; }
+.modal-content p { font-size:13px; color:var(--text-light); line-height:1.8; }
+.modal-content ul { padding-left:18px; margin:6px 0; }
+.modal-content li { font-size:13px; color:var(--text-light); line-height:1.8; }
+.modal-back {
+    display:inline-flex; align-items:center; gap:6px; padding:7px 14px;
+    background:var(--blue); color:#fff; border:none; border-radius:6px;
+    cursor:pointer; font-size:12px; font-weight:600; margin-bottom:14px; transition:background .2s;
+}
+.modal-back:hover { background:var(--blue-light); }
+.detail-row { display:flex; gap:14px; flex-wrap:wrap; margin:10px 0; }
+.detail-item {
+    flex:1; min-width:130px; background:var(--bg); border-radius:8px;
+    padding:10px 14px; text-align:center;
+}
+.detail-item .dt-label { font-size:10px; color:var(--text-light); }
+.detail-item .dt-value { font-size:15px; font-weight:700; color:var(--blue); margin-top:2px; }
+.dl-link { color:var(--blue-light); text-decoration:underline; font-size:12px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+    position:relative; background:linear-gradient(180deg, #1A334F, var(--blue));
+    color:rgba(255,255,255,.65); text-align:center;
+    padding:32px 24px; font-size:12px; line-height:1.8;
+}
+.footer::before {
+    content:''; display:block; width:100%; height:4px;
+    background:repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 20px, transparent 20px, transparent 28px);
+    margin-bottom:20px;
+}
+.footer strong { color:var(--gold); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:768px) {
+    .navbar .links { display:none; }
+    .navbar .links.open {
+        display:flex; flex-direction:column;
+        position:absolute; top:60px; left:0; right:0;
+        background:var(--blue); padding:14px 20px; gap:4px; z-index:101;
+    }
+    .nav-toggle { display:block; }
+    .hero { min-height:420px; padding:50px 16px 70px; }
+    .hero .stats { gap:20px; }
+    .intro-grid { grid-template-columns:1fr; }
+    .card-row,.card-row:nth-child(even) { flex-direction:column; }
+    .card { width:100%; }
+    .card-gap { width:100%; min-height:8px; }
+    .card-gap .rail-dot::before,.card-gap .rail-dot::after { display:none; }
+    .honor-row { grid-template-columns:1fr 70px 90px; padding:10px 14px; }
+    .section { padding:40px 14px; }
+    .modal-body { margin:20px auto; }
+}
+@media (max-width:480px) {
+    .card-grid,.grad-grid { max-width:100%; }
+    .honor-row { grid-template-columns:1fr 55px 80px; padding:8px 10px; font-size:11px; }
+    .track-zone { height:56px; }
+    :root { --track-height:56px; }
+    .train-svg { width:310px; height:54px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== BOTTOM TRACK & TRAIN ====== -->
+<div class="track-zone" id="trackZone">
+    <div class="gravel"></div>
+    <div class="rail-top"></div>
+    <div class="rail-bottom"></div>
+    <!-- 枕木由JS动态生成 -->
+    <!-- 信号灯位置由JS放置 -->
+    <!-- 里程标由JS放置 -->
+    <div class="train-wrap" id="trainWrap">
+        <svg class="train-svg" viewBox="0 0 440 76" xmlns="http://www.w3.org/2000/svg">
+            <!-- 复兴号 CR400 双车头侧视图  -->
+            <defs>
+                <linearGradient id="tr-bodyWhite" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#FFFFFF"/>
+                    <stop offset="55%" stop-color="#F5F5F5"/>
+                    <stop offset="100%" stop-color="#E0E0E0"/>
+                </linearGradient>
+                <linearGradient id="tr-noseSilver" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#C8CED4"/>
+                    <stop offset="55%" stop-color="#F2F4F6"/>
+                    <stop offset="100%" stop-color="#C8CED4"/>
+                </linearGradient>
+                <linearGradient id="tr-window" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0A1929"/>
+                    <stop offset="100%" stop-color="#1B5E8A"/>
+                </linearGradient>
+            </defs>
+
+            <!-- 左侧银色流线车头（锐利梭形） -->
+            <path d="M 72 14 L 56 10 Q 36 8 20 17 Q 8 26 2 40 Q 0 48 3 56 Q 8 61 16 63 L 72 63 Z"
+                  fill="url(#tr-noseSilver)" stroke="#B0B7BF" stroke-width="0.3"/>
+
+            <!-- 右侧银色流线车头（镜像） -->
+            <path d="M 368 14 L 384 10 Q 404 8 420 17 Q 432 26 438 40 Q 440 48 437 56 Q 432 61 424 63 L 368 63 Z"
+                  fill="url(#tr-noseSilver)" stroke="#B0B7BF" stroke-width="0.3"/>
+
+            <!-- 中央白色车身 -->
+            <rect x="72" y="12" width="296" height="51" fill="url(#tr-bodyWhite)"/>
+
+            <!-- 经典深蓝车窗带（连贯） -->
+            <rect x="72" y="20" width="296" height="13" fill="url(#tr-window)"/>
+            <!-- 窗分隔竖条 -->
+            <g fill="#D0D6DC" opacity="0.8">
+                <rect x="94" y="20" width="0.5" height="13"/><rect x="118" y="20" width="0.5" height="13"/>
+                <rect x="142" y="20" width="0.5" height="13"/><rect x="166" y="20" width="0.5" height="13"/>
+                <rect x="190" y="20" width="0.5" height="13"/><rect x="214" y="20" width="0.5" height="13"/>
+                <rect x="238" y="20" width="0.5" height="13"/><rect x="262" y="20" width="0.5" height="13"/>
+                <rect x="286" y="20" width="0.5" height="13"/><rect x="310" y="20" width="0.5" height="13"/>
+                <rect x="334" y="20" width="0.5" height="13"/><rect x="358" y="20" width="0.5" height="13"/>
+            </g>
+
+            <!-- 左侧驾驶窗（蓝色楔形） -->
+            <path d="M 9 24 Q 12 19 22 19 L 48 19 Q 54 19 57 24 L 55 32 Q 50 34 42 34 L 20 34 Q 14 32 9 29 Z"
+                  fill="url(#tr-window)"/>
+            <path d="M 11 25 Q 13 21 22 20 L 46 20 Q 51 20 53 23 L 52 28 Q 48 29 42 29 L 22 29 Q 16 28 11 27 Z"
+                  fill="#2A5A8C" opacity="0.4"/>
+
+            <!-- 右侧驾驶窗（蓝色楔形镜像） -->
+            <path d="M 431 24 Q 428 19 418 19 L 392 19 Q 386 19 383 24 L 385 32 Q 390 34 398 34 L 420 34 Q 426 32 431 29 Z"
+                  fill="url(#tr-window)"/>
+            <path d="M 429 25 Q 427 21 418 20 L 394 20 Q 389 20 387 23 L 388 28 Q 392 29 398 29 L 418 29 Q 424 28 429 27 Z"
+                  fill="#2A5A8C" opacity="0.4"/>
+
+            <!-- 红色腰线 上线（贯通全车） -->
+            <rect x="2" y="44" width="436" height="3.5" rx="1.5" fill="#D32F2F"/>
+            <!-- 红色腰线 下线（仅车身段） -->
+            <rect x="68" y="57" width="304" height="3" rx="1" fill="#D32F2F"/>
+            <!-- 金色装饰线（紧贴红色腰线下方，仅车身段） -->
+            <rect x="68" y="47.5" width="304" height="0.8" fill="#C8963E"/>
+            <rect x="68" y="60" width="304" height="0.8" fill="#C8963E"/>
+
+            <!-- 车头银色凸出与车身衔接处的红色过渡 -->
+            <rect x="72" y="28" width="1.2" height="35" fill="#D32F2F" opacity="0.5"/>
+            <rect x="368" y="28" width="1.2" height="35" fill="#D32F2F" opacity="0.5"/>
+
+            <!-- 车头前照灯（左：白色主灯 + 辅灯） -->
+            <ellipse cx="4" cy="32" rx="3" ry="4.5" fill="#FFF9C4" opacity="0.95"/>
+            <ellipse cx="4" cy="32" rx="1.8" ry="3" fill="#FFFFFF"/>
+            <ellipse cx="4" cy="52" rx="3" ry="4" fill="#FFF9C4" opacity="0.8"/>
+            <circle cx="4" cy="32" r="7" fill="#FFF9C4" opacity="0.12"/>
+
+            <!-- 车头尾灯（右：红色） -->
+            <ellipse cx="436" cy="32" rx="3" ry="4.5" fill="#FF3D00" opacity="0.95"/>
+            <ellipse cx="436" cy="52" rx="3" ry="4" fill="#FF3D00" opacity="0.85"/>
+
+            <!-- 受电弓（Z字折线） -->
+            <g stroke="#3A4A5A" stroke-width="0.9" fill="none">
+                <path d="M 180 12 L 180 5 L 195 3 L 210 5 L 250 5 L 265 3 L 280 5 L 280 12"/>
+                <path d="M 185 5 Q 230 -2 275 5"/>
+                <line x1="197" y1="5" x2="197" y2="2"/>
+                <line x1="265" y1="5" x2="265" y2="2"/>
+            </g>
+            <circle cx="197" cy="2.5" r="0.9" fill="#3A4A5A"/>
+            <circle cx="265" cy="2.5" r="0.9" fill="#3A4A5A"/>
+
+            <!-- 车顶导流罩 -->
+            <rect x="100" y="8" width="34" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="155" y="8" width="20" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="290" y="8" width="28" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="335" y="8" width="34" height="4" rx="0.8" fill="#B0BEC5"/>
+
+            <!-- 转向架（深灰，3组） -->
+            <rect x="90" y="63" width="44" height="7" rx="1.5" fill="#2E3850"/>
+            <rect x="200" y="63" width="44" height="7" rx="1.5" fill="#2E3850"/>
+            <rect x="310" y="63" width="44" height="7" rx="1.5" fill="#2E3850"/>
+            <line x1="90" y1="66" x2="134" y2="66" stroke="#556070" stroke-width="0.3"/>
+            <line x1="200" y1="66" x2="244" y2="66" stroke="#556070" stroke-width="0.3"/>
+            <line x1="310" y1="66" x2="354" y2="66" stroke="#556070" stroke-width="0.3"/>
+
+            <!-- 车轮（每组6轮，共18轮，含高光） -->
+            <g fill="#1C252A">
+                <circle cx="98" cy="72" r="3.2"/><circle cx="112" cy="72" r="3.2"/><circle cx="126" cy="72" r="3.2"/>
+                <circle cx="208" cy="72" r="3.2"/><circle cx="222" cy="72" r="3.2"/><circle cx="236" cy="72" r="3.2"/>
+                <circle cx="318" cy="72" r="3.2"/><circle cx="332" cy="72" r="3.2"/><circle cx="346" cy="72" r="3.2"/>
+            </g>
+            <g fill="#556070">
+                <circle cx="98" cy="71" r="0.8"/><circle cx="112" cy="71" r="0.8"/><circle cx="126" cy="71" r="0.8"/>
+                <circle cx="208" cy="71" r="0.8"/><circle cx="222" cy="71" r="0.8"/><circle cx="236" cy="71" r="0.8"/>
+                <circle cx="318" cy="71" r="0.8"/><circle cx="332" cy="71" r="0.8"/><circle cx="346" cy="71" r="0.8"/>
+            </g>
+
+            <!-- 车底阴影 -->
+            <rect x="2" y="62" width="436" height="1.5" fill="#000" opacity="0.06"/>
+
+            <!-- 标识 -->
+            <text x="170" y="52" font-size="6.5" fill="#D32F2F" font-weight="800" font-family="sans-serif" text-anchor="middle" letter-spacing="0.8">复兴号</text>
+            <text x="278" y="52" font-size="5.5" fill="#1B3A5C" font-weight="700" font-family="sans-serif" text-anchor="middle" letter-spacing="0.5">CR400AF</text>
+        </svg>
+    </div>
+</div>
+
+<!-- ====== NAVBAR ====== -->
+<nav class="navbar" id="top">
+    <a class="logo" href="#intro">
+        <img src="logo.png" alt="湖南高速铁路职业技术学院校徽">
+        <div class="divider"></div>
+        <span>铁道运输学院</span>
+    </a>
+    <button class="nav-toggle" onclick="document.querySelector('.navbar .links').classList.toggle('open')">☰</button>
+    <div class="links">
+        <a href="#intro" class="active">学院简介</a>
+        <a href="#org">学生组织</a>
+        <a href="#contest">竞赛资源</a>
+        <a href="#grad">优秀毕业生</a>
+        <a href="#honor">奖项荣誉</a>
+        <a href="report-org.html">组织核查报告</a>
+        <a href="report-tuanwei.html">团委加入方案</a>
+    </div>
+</nav>
+
+<!-- ====== HERO ====== -->
+<header class="hero">
+    <div class="stars" id="stars"></div>
+    <div class="mountain-bg"></div>
+    <div class="platform"></div>
+    <div class="badge">HTCRH · 铁道运输学院</div>
+    <h1>从站台出发，驶向未来</h1>
+    <p class="sub">复兴号从这里启程 · 铁路交通运营管理人才的摇篮<br>校在站旁、站在校边，零距离对接高铁运营实战</p>
+    <div class="stats">
+        <div class="stat"><div class="num">96%+</div><div class="label">近三年毕业生就业率</div></div>
+        <div class="stat"><div class="num">688人</div><div class="label">2025年广铁集团录用数</div></div>
+        <div class="stat"><div class="num">10+项</div><div class="label">国家级竞赛获奖</div></div>
+        <div class="stat"><div class="num">74年</div><div class="label">办学历史底蕴</div></div>
+    </div>
+</header>
+
+<!-- ====== 学院简介（山区站） ====== -->
+<div class="section-wrapper scene-mountain">
+<section class="section" id="intro">
+    <div class="station-tag" style="text-align:center;display:block;margin-bottom:6px;">K0+000 · 出发站</div>
+    <h2 class="section-title">学院简介</h2>
+    <div class="rail-underline"></div>
+    <p class="section-sub">湖南高速铁路职业技术学院七大学院之一，聚焦铁路运输领域人才培养</p>
+    <div class="intro-grid">
+        <div class="intro-card">
+            <h3>学院概况</h3>
+            <p>铁道运输学院是学院核心二级学院，开设<b>铁道交通运营管理</b>（国家级骨干专业）、<b>铁路物流管理</b>、<b>集装箱运营管理</b>等专业，是华南地区铁路运输人才的重要培养基地。紧邻衡阳东站，"校在站旁、站在校边"的独特地理优势让学生实训零距离接触高铁运营。</p>
+        </div>
+        <div class="intro-card">
+            <h3>办学特色</h3>
+            <ul>
+                <li><b>国家级骨干专业</b>：铁道交通运营管理</li>
+                <li><b>产教融合</b>：与广铁集团、中国铁建等200余家企业深度合作</li>
+                <li><b>以赛促教</b>：金砖国家技能大赛、全国数智商业大赛连续斩获国家级奖项</li>
+                <li><b>订单培养</b>："2+1"定向培养模式，第三年进入路局站段轮岗</li>
+                <li><b>高就业率</b>：近三年就业率保持96%以上</li>
+            </ul>
+        </div>
+    </div>
+</section>
+</div>
+
+<!-- ====== 学生组织（桥梁站） ====== -->
+<div class="section-wrapper scene-bridge">
+<section class="section" id="org">
+    <div class="station-tag" style="text-align:center;display:block;margin-bottom:6px;">K3+500 · 桥梁站</div>
+    <h2 class="section-title">学生组织</h2>
+    <div class="rail-underline"></div>
+    <p class="section-sub">校院两级学生组织，为学生提供锻炼平台与成长空间 — 点击卡片查看详情</p>
+    <div class="card-grid" id="org-grid"></div>
+</section>
+</div>
+
+<!-- ====== 竞赛资源（隧道站） ====== -->
+<div class="section-wrapper scene-tunnel">
+<section class="section" id="contest">
+    <div class="station-tag" style="text-align:center;display:block;margin-bottom:6px;">K7+200 · 隧道站</div>
+    <h2 class="section-title">竞赛资源</h2>
+    <div class="rail-underline"></div>
+    <p class="section-sub">以赛促教、以赛促学，铁道运输学院学子在全国赛事中屡创佳绩 — 点击查看详情</p>
+    <div class="card-grid" id="contest-grid"></div>
+</section>
+</div>
+
+<!-- ====== 优秀毕业生（城市站） ====== -->
+<div class="section-wrapper scene-city">
+<section class="section" id="grad">
+    <div class="station-tag" style="text-align:center;display:block;margin-bottom:6px;">K10+800 · 城市站</div>
+    <h2 class="section-title">优秀毕业生</h2>
+    <div class="rail-underline"></div>
+    <p class="section-sub">铁血丹心铸路魂，运输学子在祖国铁路事业中绽放光芒</p>
+    <div class="grad-grid" id="grad-grid"></div>
+    <p style="text-align:center;color:var(--text-light);font-size:12px;margin-top:18px;">
+        每年约3000名毕业生就职于国铁集团、地铁公司、中国铁建、中国中铁 · 被誉为"站段长的摇篮"
+    </p>
+</section>
+</div>
+
+<!-- ====== 奖项荣誉（枢纽站） ====== -->
+<div class="section-wrapper scene-hub">
+<section class="section" id="honor" style="position:relative;">
+    <div class="station-tag" style="text-align:center;display:block;margin-bottom:6px;">K14+600 · 枢纽站</div>
+    <h2 class="section-title">奖项荣誉</h2>
+    <div class="rail-underline"></div>
+    <p class="section-sub">近三年铁道运输学院师生在全国性赛事与评优中斩获的主要荣誉</p>
+    <div class="honor-wrap" style="position:relative;">
+        <div class="corner-light"></div>
+        <div class="honor-list" id="honor-list"></div>
+    </div>
+</section>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+    <p><strong>湖南高速铁路职业技术学院 · 铁道运输学院</strong></p>
+    <p>地址：湖南省衡阳市珠晖区三环东路南9号 &nbsp;|&nbsp; 邮编：421002</p>
+    <p>招生电话：0734-2522039 &nbsp;|&nbsp; 学院电话：0734-2548759</p>
+    <p style="margin-top:6px;opacity:0.4;">K15+000 · 终点站 &nbsp;|&nbsp; 数据汇编自学院官网公开发布内容，截至2026年8月</p>
+</footer>
+
+<!-- ====== MODAL OVERLAY ====== -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-body" id="modal-body"></div>
+</div>
+
+<!-- ====== SCRIPTS ====== -->
+<script>
+// ============================================================
+// DATA (same as v2)
+// ============================================================
+const orgData = [
+    {id:'tuantuan',tag:'校级',tagClass:'tag-red',title:'校团委',desc:'在学院党委和团市委领导下开展工作，下设办公室、组织部、宣传部、实践部等职能部门，指导全校共青团工作。',meta:'联系电话：0734-2548759（学院办公室转）',detail:{full:'校团委在学院党委和团市委的领导下开展工作，是全校共青团工作的核心领导机构。其主要职责包括：组织全校团员青年学习党的路线方针和政策；加强团的组织建设，建立健全各项规章制度；做好团干部的选拔、考核、培训及团内评比表彰；组织开展校园文化活动和社会实践活动；指导学生会、学社联工作。',members:['团委书记','团委副书记（学生）','办公室主任','组织部部长','宣传部部长','实践部部长','各二级学院团总支书记'],activities:[{title:'五四表彰大会',date:'2024-05-07',desc:'纪念五四运动105周年暨五四表彰大会，表彰先进团组织和优秀团员'},{title:'暑期"三下乡"社会实践',date:'2024-07-13',desc:'乡村振兴走基层，青春聚力正当时'},{title:'挑战杯校赛',date:'2024-06',desc:'第十一届"挑战杯"湖南省大学生创业计划校赛选拔'},{title:'新生合唱比赛',date:'2023-09-26',desc:'"踔厉奋发启新程，挺膺担当建新功"'}]}},
+    {id:'xueshenghui',tag:'校级',tagClass:'tag-red',title:'校学生会',desc:'校党委领导下的全校性学生自治组织，设主席团、办公室、学习部、文体部、宣传部、宿管部、权益部等七部门。',meta:'每年9-10月面向全校新生招新纳干',detail:{full:'校学生会在校党委领导和校团委指导下开展工作，秉承"服务学校、服务学生"的宗旨。下设主席团和六个职能部门：办公室（日常事务）、学习部（学风建设）、文体部（文体赛事）、宣传部（新媒体运营）、宿管部（宿舍管理）、权益部（维护权益）。各二级学院学生会为校级学生会的基层组织。',members:['主席团（主席1人、副主席2人）','办公室主任','学习部部长','文体部部长','宣传部部长','宿管部部长','权益部部长'],activities:[{title:'第十届学生联合会干部座谈会',date:'2021-03-03',desc:'学生处主持，30余名学生干部参会'},{title:'第六次学生代表大会',date:'2021-11-15',desc:'全院学生代表参与，选举新一届委员'}]}},
+    {id:'shelian',tag:'校级',tagClass:'tag-red',title:'学生社团联合会',desc:'统一管理和指导全校学生社团，涵盖学术科技、文化体育、志愿公益、创新创业等类别。',meta:'社团招新："百团大战"每年10月举行',detail:{full:'学社联统一管理全校各类学生社团。代表性社团：政协提案研究协会（获评2024年全国高校"活力社团"）、星空舞台艺术社、行车社等。学社联定期组织社团文化节、成果展等活动，为学生提供丰富的第二课堂平台。',members:['学社联理事长','副理事长','各社团社长及骨干成员'],activities:[{title:'政协提案研究协会获全国"活力社团"',date:'2024-06-19',desc:'获评全国高校"活力社团"'},{title:'社团文化节',date:'每年春秋季',desc:'全校社团集中展示与招新活动'}]}},
+    {id:'tuanxuehui',tag:'院级',tagClass:'tag-blue',title:'铁道运输学院团学会（第二十届）',desc:'运输学院核心学生组织，下设办公室、组织部、宣传部、学习部、文体部、权益部、宿管部、心理部等部门。',meta:'2025年12月完成换届交接',detail:{full:'2025年12月7日，铁道运输学院举行第二十届团学会换届大会。第十九届团学会主席刘玮庆、常务副书记谭亮晶作卸任报告。第二十届主席吴倩倩、常务副书记倪文超接任，提出"强团队、优宣传、搭平台"三大方向。院长李朝阳出席并致辞。',members:['主席：吴倩倩','常务副书记：倪文超','办公室主任','宣传部部长','组织部部长','学习部部长','文体部部长','权益部部长','宿管部部长','心理部部长'],activities:[{title:'第二十届团学会换届大会',date:'2025-12-07',desc:'换届交接及优秀班集体表彰'},{title:'端午主题文化活动',date:'2025-06-17',desc:'"粽香融暖意·师生共端阳"'},{title:'校馆联建文化传承',date:'2025',desc:'与衡阳市图书馆开展文化交流活动'}]}},
+    {id:'xingcheshe',tag:'院级社团',tagClass:'tag-blue',title:'行车社',desc:'铁道运输学院专业社团，围绕铁路行车组织、调车作业、接发列车等核心技能开展训练。',meta:'院级铁路调车技能比赛已举办至第二届',detail:{full:'行车社是运输学院专业技术类社团，聚焦铁路行车组织与调车作业实践。社团定期组织技能培训和模拟演练，协办院级铁路调车技能比赛。第二届比赛38人参赛，两人一组模拟调车长与连结员。成员多次在金砖国家技能大赛中获奖。',members:['指导老师（运输教研室）','社长','副社长','各年级核心成员'],activities:[{title:'第二届铁路调车技能比赛',date:'2025',desc:'38人参赛，真实场景模拟'},{title:'金砖大赛行车赛项全国一等奖',date:'2024',desc:'行车社核心成员代表学院夺魁'}]}},
+    {id:'qingzhixie',tag:'志愿服务',tagClass:'tag-blue',title:'铁道运输学院青年志愿者队',desc:'组织学生参与春运志愿服务、赛事保障、文化传承等公益项目，累计服务逾千小时。',meta:'连续多年获评校级优秀志愿服务集体',detail:{full:'运输学院青年志愿者队弘扬"奉献、友爱、互助、进步"志愿精神。主要活动包括衡阳东站春运志愿服务、衡阳马拉松赛事保障、衡阳市图书馆文化传承、社区科普宣传等，累计服务逾千小时。',members:['指导老师（院学工办）','队长','副队长','注册志愿者若干'],activities:[{title:'衡阳马拉松志愿服务',date:'2024-12-08',desc:'高铁学子助力马拉松赛事保障'},{title:'第三届湖南省旅发大会志愿服务',date:'2024-09',desc:'高铁学子助力旅发大会'},{title:'衡阳东站春运志愿服务',date:'每年春运期间',desc:'服务旅客，协助车站秩序维护'}]}}
+];
+
+const contestData = [
+    {id:'jinzhuan2025',tag:'国际级',tagClass:'tag-gold',title:'金砖国家技能大赛（2025第三届）',desc:'铁路交通运营管理技术赛项。全国二等奖2项、三等奖2项、优秀组织奖，4位老师获优秀指导老师。',detail:{full:'2025第三届铁道交通运营管理技术赛项全国总决赛在黑龙江举行，全国40多所院校114支代表队参赛。铁路接发列车作业：杨雪蓉、李玲指导团队获二等奖；铁路调车作业：刘思源、张楷翼指导团队获二等奖。教师组卿玉梅等获三等奖。学院获两项优秀组织奖。',level:'国际级（金砖国家）',registration:'通过校内选拔推荐参赛，关注学院运输教研室通知',awards:'全国二等奖2项、三等奖2项、优秀组织奖2项、4位优秀指导老师',downloads:['咨询：铁道运输学院运输教研室']}},
+    {id:'jinzhuan2024',tag:'国际级',tagClass:'tag-gold',title:'金砖国家技能大赛（2024第二届）',desc:'行车团队斩获全国一等奖，调车团队获全国二等奖，学院获优秀组织奖。共7项奖项。',detail:{full:'2024年12月，第二届铁道交通运营管理技术赛项全国总决赛在广州举行，50余所单位近400人参赛。行车团队（杨雪蓉、李玲指导）获一等奖；调车团队（刘思源、张晓艳指导）获二等奖。李培锁副院长亲赴现场指导。',level:'国际级（金砖国家）',registration:'院内选拔，关注运输专业年级通知',awards:'全国一等奖1项、全国二等奖1项、优秀组织奖、4位优秀指导老师',downloads:['回顾：www.htcrh.com/cyrhgtt/info/1022/1056.htm']}},
+    {id:'shuzhi2025',tag:'国家级',tagClass:'tag-gold',title:'全国数智商业生态运营大赛',desc:'斩获国家级特等奖1项、二等奖1项、三等奖1项，展现铁路专业跨界竞争力。',detail:{full:'第九届"链战商峰"全国数智商业生态运营大赛由中国商业联合会主办，设低空物流运营、产业链供应链、产业数字化三大赛道。铁道运输学院9名学子组三支队伍，指导老师资葵、黄秀桃。云梭通航队获全国特等奖，运输一队获二等奖，智汇链团获三等奖。',level:'国家级',registration:'通过指导老师组织报名，赛前校内集训',awards:'国家级特等奖1项、二等奖1项、三等奖1项',downloads:['详情：www.htcrh.com/info/1004/9423.htm']}},
+    {id:'tiaozhanbei',tag:'省级',tagClass:'tag-red',title:'"挑战杯"湖南省大学生创业计划',desc:'在第十一届"挑战杯"湖南省大学生创业计划竞赛中斩获两金三铜。',detail:{full:'第十一届"挑战杯"湖南省大学生创业计划竞赛。校赛由院团委和创新创业中心组织选拔培训，各二级学院组队参与，最终获两金三铜。',level:'省级',registration:'每年4-5月校内选拔，院团委、创新创业中心组织',awards:'金奖2项、铜奖3项（第十一届，2024年）',downloads:['校内通知关注：院团委公告栏/班级群']}},
+    {id:'diaoche',tag:'院级',tagClass:'tag-blue',title:'铁路调车技能比赛（第二届）',desc:'38人同场竞技，模拟调车长与连结员，考核标准化作业和应急能力。',detail:{full:'第二届铁路调车技能比赛在实训楼举行，运输教研室专业教师现场指导，各班选手及行车社成员共38人参赛。以实际铁路调车场景为依托现场模拟，考标准化作业、信号识别、应急处置等能力。',level:'院级',registration:'面向全院学生，各班学习委员统计报名',awards:'按成绩评定一、二、三等奖，颁发院级证书',downloads:['联系：铁道运输学院运输教研室']}},
+    {id:'xinli',tag:'校级',tagClass:'tag-blue',title:'校园心理情景剧比赛',desc:'第十四届比赛，运输学院原创剧目《桥》获二等奖。',detail:{full:'2026年5月26日，第十四届校园心理情景剧比赛收官。铁道运输学院凭借原创剧目《桥》获二等奖，彰显"五育并举"育人成效。',level:'校级',registration:'每年4-5月由校心理健康中心组织',awards:'二等奖（第十四届，2026年）',downloads:[]}}
+];
+
+const gradData = [
+    {name:'熊孝铁',ji:'熊',job:'中国铁路上海局集团有限公司',year:'2023届',desc:'铁路物流管理专业2002班。在校获国家奖学金、国家励志奖学金、校一等奖学金，毕业后经学院推荐被上海局录用，从偏远山区走向铁路事业。'},
+    {name:'汤前楚',ji:'汤',job:'广铁集团龙川机务段 · 机车司机',year:'2019届',desc:'曾任学社联理事长。入路3年晋升正式司机，实现"零违章、零违纪、零考核"。获广铁"春运立功竞赛先进个人""青年岗位能手"，担任青马讲师。'},
+    {name:'王笑冰',ji:'王',job:'"最美铁路人"荣誉称号',year:'',desc:'学院杰出校友代表，被授予"最美铁路人"称号，在平凡岗位上用坚守诠释新时代铁路人精神。'},
+    {name:'李梦',ji:'李',job:'广铁集团 · 首位女动车随车机械师',year:'',desc:'优秀校友，打破性别界限，成为广铁集团首位女动车随车机械师，以精湛技能创造"零的突破"。'},
+];
+
+const honorData = [
+    {title:'全国数智商业生态运营大赛 特等奖',level:'国家级',year:'2025',lc:'#C8963E'},
+    {title:'全国数智商业生态运营大赛 二等奖',level:'国家级',year:'2025',lc:'#C8963E'},
+    {title:'全国数智商业生态运营大赛 三等奖',level:'国家级',year:'2025',lc:'#C8963E'},
+    {title:'金砖技能大赛 接发列车 全国二等奖（学）',level:'国际级',year:'2025',lc:'#C8963E'},
+    {title:'金砖技能大赛 调车作业 全国二等奖（学）',level:'国际级',year:'2025',lc:'#C8963E'},
+    {title:'金砖技能大赛 优秀组织奖（两项）',level:'国际级',year:'2025',lc:'#C8963E'},
+    {title:'金砖技能大赛 行车团队 全国一等奖',level:'国际级',year:'2024',lc:'#C8963E'},
+    {title:'金砖技能大赛 调车团队 全国二等奖',level:'国际级',year:'2024',lc:'#C8963E'},
+    {title:'"挑战杯"省创业计划 两金三铜',level:'省级',year:'2024',lc:'#CC2936'},
+    {title:'全国高校"活力社团"',level:'国家级',year:'2024',lc:'#C8963E'},
+    {title:'校园心理情景剧比赛 二等奖',level:'校级',year:'2026',lc:'#2A5A8C'},
+    {title:'广铁集团录用人数全国第一(688人)',level:'行业',year:'2025',lc:'#CC2936'},
+];
+
+// ============================================================
+// RENDER
+// ============================================================
+function render(containerId, data, builder) {
+    document.getElementById(containerId).innerHTML = data.map((d,i)=>builder(d,i)).join('');
+}
+
+// Staggered card layout for orgs
+render('org-grid', orgData, (d,i) => `
+    <div class="card-row">
+        <div class="card" onclick="openOrg('${d.id}')">
+            <span class="icon-tag ${d.tagClass}">${d.tag}</span>
+            <h3>${d.title}</h3>
+            <p>${d.desc}</p>
+            <div class="meta">${d.meta}</div>
+            <span class="card-arrow">›</span>
+        </div>
+        <div class="card-gap"><div class="rail-dot"></div></div>
+    </div>
+`);
+
+// Regular grid for contests (simpler)
+render('contest-grid', contestData, (d,i) => `
+    <div class="card-row">
+        <div class="card" onclick="openContest('${d.id}')">
+            <span class="icon-tag ${d.tagClass}">${d.tag}</span>
+            <h3>${d.title}</h3>
+            <p>${d.desc}</p>
+            <span class="card-arrow">›</span>
+        </div>
+        <div class="card-gap"><div class="rail-dot"></div></div>
+    </div>
+`);
+
+render('grad-grid', gradData, (d,i) => `
+    <div class="grad-card">
+        <div class="avatar">${d.ji}</div>
+        <div class="info">
+            <h3>${d.name}${d.year?' · '+d.year:''}</h3>
+            <div class="job">${d.job}</div>
+            <p>${d.desc}</p>
+        </div>
+    </div>
+`);
+
+(function(){
+    let h = honorData.map(d => `
+        <div class="honor-row">
+            <span class="title">${d.title}</span>
+            <span class="level"><span class="tag" style="background:${d.lc};color:#fff;">${d.level}</span></span>
+            <span class="year">${d.year}年</span>
+        </div>
+    `).join('');
+    document.getElementById('honor-list').innerHTML = `<div class="honor-row header"><span>荣誉名称</span><span>级别</span><span>时间</span></div>${h}`;
+})();
+
+// ============================================================
+// TRACK & TRAIN SYSTEM
+// ============================================================
+function buildTrack() {
+    const zone = document.getElementById('trackZone');
+    const vw = window.innerWidth;
+    // Generate sleepers
+    let sleeperHtml = '';
+    for (let x = 20; x < vw; x += 28) {
+        sleeperHtml += `<div class="sleeper" style="left:${x}px;"></div>`;
+    }
+    zone.insertAdjacentHTML('afterbegin', sleeperHtml);
+
+    // Place signal posts at section markers (20%, 45%, 70%, 90% of page)
+    const signals = [
+        { pos:0.20, id:'sig1' },
+        { pos:0.45, id:'sig2' },
+        { pos:0.70, id:'sig3' },
+        { pos:0.92, id:'sig4' },
+    ];
+    signals.forEach(s => {
+        zone.insertAdjacentHTML('beforeend', `
+            <div class="signal-post" id="${s.id}" style="left:${s.pos*100}%;transform:translateX(-50%);">
+                <div class="light" style="background:#333;"></div>
+                <div class="light" style="background:#333;"></div>
+                <div class="post"></div>
+            </div>
+        `);
+    });
+}
+
+function updateTrain() {
+    const vh = document.documentElement.clientHeight;
+    const sh = document.documentElement.scrollHeight;
+    const st = window.scrollY;
+    const maxScroll = sh - vh;
+    const progress = maxScroll > 0 ? Math.min(st / maxScroll, 1) : 0;
+
+    const train = document.getElementById('trainWrap');
+    const trackW = window.innerWidth - 460; // train width ~440px
+    train.style.transform = `translateX(${progress * trackW}px)`;
+
+    // Update signal lights based on section
+    const sections = [
+        { id:'intro', sig:'sig1' },
+        { id:'org', sig:'sig2' },
+        { id:'contest', sig:'sig3' },
+        { id:'honor', sig:'sig4' },
+    ];
+    sections.forEach((sec,i) => {
+        const el = document.getElementById(sec.id);
+        const sig = document.getElementById(sec.sig);
+        if (!el || !sig) return;
+        const secTop = el.offsetTop - 200;
+        const secBot = secTop + el.offsetHeight;
+        const mid = secTop + el.offsetHeight/2;
+        const lights = sig.querySelectorAll('.light');
+        const zone = vh * 0.5;
+
+        // Green when section is in view
+        if (st + vh*0.4 > secTop && st < secBot - 100) {
+            lights[0].style.background = '#388E3C';
+            lights[0].style.boxShadow = '0 0 12px rgba(56,142,60,.6)';
+            lights[1].style.background = '#388E3C';
+            lights[1].style.boxShadow = '0 0 12px rgba(56,142,60,.6)';
+        } else if (st + vh > secTop) {
+            // Yellow when approaching
+            lights[0].style.background = '#F9A825';
+            lights[0].style.boxShadow = '0 0 12px rgba(249,168,37,.6)';
+            lights[1].style.background = '#F9A825';
+            lights[1].style.boxShadow = '0 0 12px rgba(249,168,37,.6)';
+        } else {
+            lights[0].style.background = '#333';
+            lights[0].style.boxShadow = 'none';
+            lights[1].style.background = '#333';
+            lights[1].style.boxShadow = 'none';
+        }
+    });
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+const modal = document.getElementById('modal');
+const modalBody = document.getElementById('modal-body');
+function openModal(html) { modalBody.innerHTML = html; modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+function openOrg(id) {
+    const d = orgData.find(x=>x.id===id); if(!d)return; const dd=d.detail;
+    openModal(`
+        <div class="modal-header">
+            <img class="modal-logo" src="logo.png" alt=""><div class="modal-title-grp"><h2>${d.title}</h2><span class="modal-tag ${d.tagClass}">${d.tag}</span></div><button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-content">
+            <button class="modal-back" onclick="closeModal()">← 返回列表</button>
+            <h3>组织介绍</h3><p>${dd.full}</p>
+            <h3>核心成员</h3><ul>${dd.members.map(m=>`<li>${m}</li>`).join('')}</ul>
+            <h3>近期活动</h3>
+            ${dd.activities.map(a=>`<div style="background:var(--bg);border-radius:8px;padding:10px 14px;margin-bottom:6px;"><div style="display:flex;justify-content:space-between;"><strong style="color:var(--blue);">${a.title}</strong><span style="font-size:11px;color:var(--text-light);">${a.date}</span></div><p style="font-size:12px;color:var(--text-light);margin-top:3px;">${a.desc}</p></div>`).join('')}
+        </div>`);
+}
+function openContest(id) {
+    const d = contestData.find(x=>x.id===id); if(!d)return; const dd=d.detail;
+    openModal(`
+        <div class="modal-header">
+            <img class="modal-logo" src="logo.png" alt=""><div class="modal-title-grp"><h2>${d.title}</h2><span class="modal-tag ${d.tagClass}">${d.tag} · ${dd.level}</span></div><button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-content">
+            <button class="modal-back" onclick="closeModal()">← 返回列表</button>
+            <h3>竞赛介绍</h3><p>${dd.full}</p>
+            <div class="detail-row"><div class="detail-item"><div class="dt-label">竞赛级别</div><div class="dt-value">${dd.level||'—'}</div></div></div>
+            <h3>报名方式</h3><p>${dd.registration}</p>
+            <h3>获奖情况</h3><p>${dd.awards}</p>
+            ${dd.downloads&&dd.downloads.length?`<h3>相关资料</h3><ul>${dd.downloads.map(x=>`<li>${x.startsWith('http')?`<a class="dl-link" href="${x}" target="_blank">${x}</a>`:x}</li>`).join('')}</ul>`:''}
+        </div>`);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+buildTrack();
+window.addEventListener('scroll', updateTrain, {passive:true});
+window.addEventListener('resize', () => { updateTrain(); });
+updateTrain();
+
+// Hero stars
+(function(){
+    let html = '';
+    for(let i=0;i<50;i++){
+        const x = Math.random()*100, y = Math.random()*70, d = Math.random()*2+1;
+        html += `<span style="left:${x}%;top:${y}%;width:${d}px;height:${d}px;animation-delay:${Math.random()*3}s;"></span>`;
+    }
+    document.getElementById('stars').innerHTML = html;
+})();
+
+// Navbar
+const sections = document.querySelectorAll('.section');
+const links = document.querySelectorAll('.navbar .links a');
+window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if(window.scrollY >= s.offsetTop - 100) current = s.id; });
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+});
+links.forEach(a => a.addEventListener('click', () => document.querySelector('.navbar .links').classList.remove('open')));
+</script>
+</body>
+</html>
