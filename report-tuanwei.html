@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>院团委加入方案报告 — 铁道运输学院</title>
+<style>
+/* ===== 网站统一外壳：导航栏 + 底部铁轨 + 复兴号列车 ===== */
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; padding-bottom:96px;}
+.navbar{
+    position:sticky; top:0; z-index:100;
+    background:linear-gradient(135deg,#1B3A5C,#102844);
+    padding:0 24px; height:60px;
+    display:flex; align-items:center; justify-content:space-between;
+    box-shadow:0 2px 16px rgba(0,0,0,.3);
+}
+.navbar .logo{display:flex; align-items:center; gap:10px; text-decoration:none;}
+.navbar .logo img{height:36px; width:auto;}
+.navbar .logo .divider{width:1px; height:26px; background:rgba(255,255,255,.3);}
+.navbar .logo span{color:#fff; font-size:15px; font-weight:600; letter-spacing:1px; white-space:nowrap;}
+.navbar .links{display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;}
+.navbar .links a{
+    color:rgba(255,255,255,.8); text-decoration:none;
+    font-size:13px; padding:5px 11px; border-radius:5px;
+    transition:all .2s; white-space:nowrap;
+}
+.navbar .links a:hover,.navbar .links a.active{color:#fff; background:rgba(255,255,255,.15);}
+.nav-toggle{display:none; background:none; border:none; color:#fff; font-size:24px; cursor:pointer;}
+.track-zone{position:fixed; bottom:0; left:0; right:0; height:96px; z-index:150; pointer-events:none;}
+.track-zone .gravel{
+    position:absolute; inset:0;
+    background:repeating-linear-gradient(90deg,transparent,transparent 8px,rgba(139,119,101,.08) 8px,rgba(139,119,101,.08) 9px),
+                linear-gradient(180deg,#D4C5B2 0%,#C7B59E 40%,#BAAB95 100%);
+    border-top:2px solid rgba(0,0,0,.12);
+}
+.rail-top,.rail-bottom{position:absolute; left:0; right:0; height:4px; background:linear-gradient(180deg,#9E9E9E,#BDBDBD 50%,#757575); border-radius:2px;}
+.rail-top{top:14px;} .rail-bottom{top:38px;}
+.sleeper{position:absolute; bottom:0; width:6px; height:56px; background:linear-gradient(180deg,#8D6E63,#6D4C41); border-radius:3px; opacity:.6;}
+.train-wrap{position:absolute; bottom:10px; left:0; transform:translateX(0); z-index:10; will-change:transform;}
+.train-svg{width:440px; height:76px; display:block;}
+@media (max-width:768px){
+    .navbar .links{display:none;}
+    .navbar .links.open{display:flex; flex-direction:column; position:absolute; top:60px; left:0; right:0; background:#1B3A5C; padding:14px 20px; gap:4px; z-index:101;}
+    .nav-toggle{display:block;}
+    .train-svg{width:310px; height:54px;}
+}
+
+/* ===== 报告正文样式（原样保留） ===== */
+  :root{
+    --red:#b3261e; --red-dark:#8a1b14; --red-light:#fbeae8; --bg:#faf7f6;
+    --card:#ffffff; --border:#eadcd9; --text:#2a2222; --muted:#7a6a66;
+    --green:#1e8e3e; --green-bg:#e6f4ea; --amber:#b26a00; --amber-bg:#fff4e0;
+    --blue:#1a5fb4; --blue-bg:#e8f0fb;
+  }
+  body{background:var(--bg); color:var(--text); line-height:1.75;}
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px;}
+  header{background:linear-gradient(135deg,#8a1b14,#c0392b); color:#fff; padding:36px 0 30px; margin-bottom:26px;}
+  header h1{font-size:23px; letter-spacing:1px; margin-bottom:8px;}
+  header .sub{font-size:14px; opacity:.92;}
+  .meta{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; font-size:12px;}
+  .meta span{background:rgba(255,255,255,.16); padding:4px 10px; border-radius:20px;}
+  .legend{display:flex; flex-wrap:wrap; gap:14px; font-size:13px; margin:14px 0 4px;}
+  .legend .it{display:flex; align-items:center; gap:6px;}
+  .dot{width:12px; height:12px; border-radius:3px; display:inline-block;}
+  .dot.ok{background:var(--green);} .dot.med{background:var(--amber);} .dot.no{background:var(--red);}
+  section{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:22px 24px; margin-bottom:22px; box-shadow:0 1px 3px rgba(138,27,20,.06);}
+  h2{font-size:19px; color:var(--red-dark); border-left:4px solid var(--red); padding-left:10px; margin-bottom:14px;}
+  h3{font-size:15px; color:var(--red-dark); margin:18px 0 8px;}
+  h4{font-size:14px; margin:10px 0 6px; color:#5a2b26;}
+  p{font-size:14px; margin-bottom:8px;}
+  ul,ol{margin:4px 0 10px 22px; font-size:14px;}
+  li{margin-bottom:5px;}
+  .item{margin:8px 0 4px;}
+  .item b{color:var(--red-dark);}
+  .src{font-size:12px; color:var(--muted); margin-top:6px; padding-top:6px; border-top:1px dashed var(--border);}
+  .src a{color:#8a4b1b; text-decoration:none; word-break:break-all;}
+  .src a:hover{text-decoration:underline;}
+  .notice{background:var(--amber-bg); border:1px solid #f0d9a8; border-radius:8px; padding:12px 14px; font-size:13px; margin:10px 0;}
+  .warn{background:var(--red-light); border:1px solid #f2c4c2; border-radius:8px; padding:12px 14px; font-size:13px; margin:10px 0;}
+  .ok-box{background:var(--green-bg); border:1px solid #bfe3c8; border-radius:8px; padding:12px 14px; font-size:13px; margin:10px 0;}
+  table{width:100%; border-collapse:collapse; font-size:13px; margin:10px 0;}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--red-light); color:var(--red-dark);}
+  .step{display:flex; gap:14px; margin:12px 0; padding:12px 14px; background:#fdf9f8; border:1px solid var(--border); border-radius:8px;}
+  .step .num{flex:0 0 34px; height:34px; line-height:34px; text-align:center; background:var(--red); color:#fff; border-radius:50%; font-weight:bold; font-size:15px;}
+  .step .body{flex:1;}
+  .step .body .tt{font-weight:bold; color:var(--red-dark); font-size:14px;}
+  .step .body .tt small{font-weight:normal; color:var(--muted); margin-left:6px;}
+  .res{background:#fdf6f5; border-radius:8px; padding:10px 14px; margin:8px 0;}
+  .res .t{font-size:12px; color:var(--red-dark); font-weight:bold; margin-bottom:4px;}
+  .badge{display:inline-block; font-size:11px; padding:1px 8px; border-radius:10px; margin-left:6px; vertical-align:1px;}
+  .badge.confirm{background:var(--amber-bg); color:var(--amber);}
+  .badge.verify{background:var(--green-bg); color:var(--green);}
+  footer{font-size:12px; color:var(--muted); text-align:center; margin-top:10px;}
+</style>
+</head>
+<body>
+
+<!-- ====== 统一导航栏 ====== -->
+<nav class="navbar" id="top">
+    <a class="logo" href="index.html">
+        <img src="logo.png" alt="湖南高速铁路职业技术学院校徽">
+        <div class="divider"></div>
+        <span>铁道运输学院</span>
+    </a>
+    <button class="nav-toggle" onclick="document.querySelector('.navbar .links').classList.toggle('open')">☰</button>
+    <div class="links">
+        <a href="index.html#intro">学院简介</a>
+        <a href="index.html#org">学生组织</a>
+        <a href="index.html#contest">竞赛资源</a>
+        <a href="index.html#grad">优秀毕业生</a>
+        <a href="index.html#honor">奖项荣誉</a>
+        <a href="report-org.html">组织核查报告</a>
+        <a href="report-tuanwei.html" class="active">团委加入方案</a>
+    </div>
+</nav>
+
+<!-- ====== 报告正文（原样保留） ====== -->
+<header>
+  <div class="wrap">
+    <h1>共青团湖南高速铁路职业技术学院委员会 · 加入方案报告</h1>
+    <div class="sub">面向在校学生的加入条件、流程、材料、资源获取与分阶段行动建议；所有信息标注来源，未核实内容明示"需二次确认"。</div>
+    <div class="meta">
+      <span>检索日期：2026-08-12</span>
+      <span>组织全称：共青团湖南高速铁路职业技术学院委员会（院团委）</span>
+      <span>指导关系：院党委 + 共青团衡阳市委双重领导</span>
+      <span>官网团委频道：www.htcrh.com/tw</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2>〇、报告说明与可信度分级</h2>
+    <div class="legend">
+      <span class="it"><span class="dot ok"></span>官方网页直接核实（官网栏目/页面原文）</span>
+      <span class="it"><span class="dot med"></span>需二次确认（官网仅有线索，细则未公开，须向团委办公室/辅导员核实）</span>
+      <span class="it"><span class="dot no"></span>未能核实（公开渠道无信息，不得作为依据）</span>
+    </div>
+    <p style="margin-top:10px;">重要前提：<b>院团委未在官网公开完整的"干部选拔办法"正文</b>。本报告中"加入条件""加入流程"两章，以官网可查的两份权威文件——《学生会组织改革情况》（2020年，学工处栏目）与《学院章程》（第五十五~五十七条）——所载团学干部通用标准为基础，并结合团校培训通知、干部试用公示等公开线索整理；凡属细则层面的内容（报名入口、笔试面试形式、名额、试用期时长等）一律标注"需二次确认"。</p>
+  </section>
+
+  <section>
+    <h2>一、组织概况（加入前必读）</h2>
+    <p><b>全称：</b>共青团湖南高速铁路职业技术学院委员会（简称"院团委"）。接受学院党委与共青团衡阳市委双重领导，是学院先进青年的群众组织和共青团组织的最高机构。</p>
+    <p><b>机构设置（官方核实）：</b>设<b>办公室、组织部、宣传部、实践部</b>4个职能部门，下辖5个团总支和1个综合团支部；负责指导<b>院学生联合会（学生会）</b>和<b>院学生社团联合会</b>开展工作。品牌活动：校园文化艺术节、科技技能节、社团文化节、"雁峰之春"文化艺术节。</p>
+    <p><b>曾获荣誉（官方核实）：</b>全国铁路五四红旗团委、湖南省无偿献血先进单位、湖南青马在线优秀组织单位、衡阳市五四红旗团委、衡阳市青年创新示范基地。</p>
+    <div class="src"><b>信息来源：</b><a href="https://www.htcrh.com/tw/twgk.htm">官网团委频道"团委概况"</a>；<a href="https://www.htcrh.com/info/1004/6543.htm">官网《五四表彰大会》报道</a></div>
+    <div class="notice">说明：院团委招纳的是"团学干部"（院团委部门干事/负责人），与学生会在校团委指导下选拔、团学骨干同属一套体系；下文条件与流程以团学干部通用标准为准。</div>
+  </section>
+
+  <section>
+    <h2>二、加入条件（选拔标准）</h2>
+    <p>以下条件来自官网公开文件中的<b>团学干部通用标准</b>。院团委部门干事的细化条件未公开，正式以当年通知为准。</p>
+    <table>
+      <tr><th style="width:120px;">维度</th><th>具体要求（官方文件口径）</th><th style="width:180px;">依据与确认级别</th></tr>
+      <tr><td>政治面貌</td><td>团学组织工作人员须为<b>共产党员或共青团员</b>；未入团者须先完成入团程序。团委职责含"推荐优秀团员作入党积极分子人选"（推优入党），团员身份是基础门槛。</td>
+        <td><span class="badge verify">官网核实</span><a href="https://www.htcrh.com/xsc/info/1210/1084.htm">《学生会组织改革情况》备案表第5项</a></td></tr>
+      <tr><td>学业成绩</td><td>除一年级新生外，最近1个学期/学年成绩<b>综合排名在本专业前30%以内，且无课业不及格</b>；述职评议"学习情况"维度同口径（前30%、必修课无挂科补考，占10分）。</td>
+        <td><span class="badge verify">官网核实</span>同上第6项及"日常考评·学习情况"</td></tr>
+      <tr><td>组织能力</td><td>对学校学生工作有一定熟悉度，理解学生会/团委性质、任务与定位；具备较强领导才能、管理组织水平、号召力和影响力；能团结带领同学开展活动。</td>
+        <td><span class="badge verify">官网核实</span>同上"主席团成员候选人产生办法·参选人资格"</td></tr>
+      <tr><td>纪律性</td><td>遵守国家法律法规与校纪校规，无违规违纪处理记录；落实《学生会、研究生会干部自律公约》，按时参加例会与组织活动（述职评议"纪律作风"维度10分）。</td>
+        <td><span class="badge verify">官网核实</span>同上"日常考评·纪律作风"</td></tr>
+      <tr><td>政治学习</td><td>理想信念坚定、拥护党的领导；<b>青年大学习网上主题团课参与率90%及以上</b>（述职评议"政治态度"维度5分）；积极参加"三会两制一课"和团的活动。</td>
+        <td><span class="badge verify">官网核实</span>同上"日常考评·政治态度"</td></tr>
+      <tr><td>志愿服务</td><td>在<b>湖南志愿服务网注册成为志愿者</b>并经常性参加志愿服务（述职评议"道德品行"维度10分）；团委下设青年志愿服务中心及各院系分会，是主要参与渠道。</td>
+        <td><span class="badge verify">官网核实</span>同上"日常考评·道德品行"；<a href="https://edu.youth.cn/jyzx/jyxw/202010/t20201013_12529066.htm">中国青年网</a></td></tr>
+      <tr><td>其他基础条件</td><td>政治坚定、作风正派、学习认真、工作扎实，在同学中有较高威信；乐于奉献、服务意识强（双代会委员候选人选拔口径）。</td>
+        <td><span class="badge verify">官网核实</span>同上"代表产生办法"部分</td></tr>
+    </table>
+    <div class="warn"><b>需二次确认：</b>①院团委部门干事是否同样执行"成绩前30%"（改革文件针对学生会工作人员，院团委干部以当年通知为准）；②各学院团总支招干细则；③入团流程与时间安排。→ 请向<b>辅导员、二级学院团总支</b>或<b>院团委办公室</b>确认。</div>
+  </section>
+
+  <section>
+    <h2>三、加入流程（报名 → 任命全链路）</h2>
+    <p>官网公开线索：校级学生会主席团候选人由<b>二级学院团组织推荐 → 学院（系）党组织同意 → 校党委学工部门与校团委联合审查 → 报校党委确定</b>；工作部门成员由<b>二级学院团组织推荐，经校党委学工部门和校团委审核确定</b>；院级组织学生干部设有<b>试用公示</b>环节（第十三届院级组织学生干部试用公示，2024年2月）。</p>
+    <div class="notice">院团委完整招新流程正文未公开，以下流程为"官方已证环节 + 通用做法"的合成版；每一步的时限以当年通知为准。</div>
+
+    <div class="step"><div class="num">1</div><div class="body"><span class="tt">关注通知、报名<small>（时限：以当年纳新/换届通知为准，通常集中在新学年9-10月或学年末换届期）</small></span>
+      <ul>
+        <li>留意<b>团委频道"重要通知"</b>（www.htcrh.com/tw/gzdt/zytz.htm）、二级学院团总支通知、班级群转发；团委新媒体平台同步发布。</li>
+        <li>按要求下载并填写报名表/申请表，在规定时间前提交（纸质或线上，视通知而定）。</li>
+      </ul></div></div>
+
+    <div class="step"><div class="num">2</div><div class="body"><span class="tt">班级/系部推荐<small>（官方核实环节）</small></span>
+      <ul>
+        <li>校级组织成员一般由<b>二级学院团组织推荐</b>；班级团支部、班委会经历是重要基础（多数高校学生干部选拔明确要求有班级/院系干部经历）。</li>
+        <li>注意：提前在班级和学院团总支建立良好评价，争取获得推荐名额。</li>
+      </ul></div></div>
+
+    <div class="step"><div class="num">3</div><div class="body"><span class="tt">资格审查<small>（官方环节；时限：报名截止后数日内公示通过名单）</small></span>
+      <ul>
+        <li>审查政治面貌（团员/党员）、成绩排名（前30%且无挂科）、有无违纪记录等。</li>
+        <li>资格审查通过名单通常公示，请留意是否漏报、及时复核。</li>
+      </ul></div></div>
+
+    <div class="step"><div class="num">4</div><div class="body"><span class="tt">笔试 / 面试（竞聘演讲）<small>（官方证明确有竞选演说与提问环节；笔试形式以通知为准）</small></span>
+      <ul>
+        <li>官方文件证实：主席团候选人须<b>准备竞选演说并在选举大会陈述，接受现场投票代表提问</b>。</li>
+        <li>通用做法（<b>需确认本校具体形式</b>）：笔试内容常涉时事政治、党章团章、团学工作基本知识、公文写作；面试为结构化问答+竞聘演讲。备考可围绕"团的基本知识+校史校情+对所竞聘岗位的工作设想"准备。</li>
+      </ul></div></div>
+
+    <div class="step"><div class="num">5</div><div class="body"><span class="tt">组织考察、确定人选<small>（官方环节）</small></span>
+      <ul>
+        <li>综合笔试、面试成绩确定考察名单，开展组织考察；校级组织负责人须报校党委批复，学生会主席团经<b>学生代表大会</b>选举产生（本校第二届双代会2019年12月召开，选举团委委员11名、学生委员7名）。</li>
+      </ul></div></div>
+
+    <div class="step"><div class="num">6</div><div class="body"><span class="tt">公示与试用、正式任命<small>（官方证实存在"试用公示"）</small></span>
+      <ul>
+        <li>拟录用名单在全校范围<b>公示</b>（本校已出现"第十三届院级组织学生干部试用公示"），公示无异议后进入<b>试用期</b>，试用期满考核合格正式聘用。</li>
+        <li><b>需确认：</b>试用期具体时长（通用做法为1个月）；部门干事是否走完整笔试面试。</li>
+      </ul></div></div>
+
+    <div class="src"><b>信息来源：</b><a href="https://www.htcrh.com/xsc/info/1210/1084.htm">《学生会组织改革情况》（官网学工处）</a>；<a href="https://www.htcrh.com/tw/info/1051/1123.htm">第十三届院级组织学生干部试用公示（官网团委）</a>；<a href="https://www.htcrh.com/tw/info/1051/1122.htm">第二十八期团校培训通知（官网团委）</a></div>
+  </section>
+
+  <section>
+    <h2>四、报名渠道与材料清单</h2>
+    <h3>1. 报名渠道（现状）</h3>
+    <ul>
+      <li><b>官方信息源：</b>团委频道"重要通知"栏目（www.htcrh.com/tw/gzdt/zytz.htm）；二级学院团总支通知；班级群转发；团委官方新媒体。</li>
+      <li><b>报名通道：</b>官网未公开在线报名系统。<span class="badge confirm">需二次确认</span>——报名入口（线下交表地点/线上问卷）、交表时间，须向院团委办公室、团总支或辅导员确认。</li>
+      <li><b>到梦空间：</b>二课平台会发布团委活动报名（作为参与记录），但干部竞聘报名以团委正式通知为准。</li>
+    </ul>
+    <h3>2. 材料清单（建议提前准备）</h3>
+    <table>
+      <tr><th>材料</th><th>说明</th><th>备注</th></tr>
+      <tr><td>报名表/申请表</td><td>团委通知附件下载，如实填写个人基本信息、任职经历、所报部门与岗位</td><td>以当年通知附件为准</td></tr>
+      <tr><td>个人简历/自荐书</td><td>突出团员身份、班级/院系干部经历、志愿服务、获奖情况、特长</td><td><span class="badge confirm">建议准备，是否必需以通知为准</span></td></tr>
+      <tr><td>推荐材料/意见</td><td>班级团支部、二级学院团总支推荐意见（校级组织推荐制官方已证实）</td><td>提前与辅导员、团总支沟通</td></tr>
+      <tr><td>竞选演讲稿</td><td>竞聘演讲环节使用，说明对岗位的理解与工作设想</td><td>主席团层面官方文件已证实需要</td></tr>
+      <tr><td>成绩证明材料</td><td>作为成绩排名（前30%）、无挂科的佐证，供资格审查</td><td>按需提供</td></tr>
+    </table>
+    <div class="notice"><b>提示：</b>提前把"入团志愿书/团员证""湖南志愿服务网注册截图""青年大学习参与记录""荣誉证书"归档，报名时可随时调用。</div>
+  </section>
+
+  <section>
+    <h2>五、加入后可获得的资源及争取方式</h2>
+
+    <div class="res"><div class="t">① 学习培训资源（官方核实）</div>
+      <ul>
+        <li><b>团校培训：</b>团委定期举办团校培训班（已办至第二十八期，发文字号"湘高铁院团发〔2023〕34号"），设优秀学员评选表彰——争取成为优秀学员，是写入履历的亮点。</li>
+        <li><b>青年马克思主义者培养：</b>学院为"湖南青马在线"优秀组织单位，骨干可参加省级青马骨干班培训。</li>
+        <li><b>宣传/技能培训：</b>宣传部体系内新闻写作、新媒体运营培训（大学生记者团同源体系）；实践部体系内活动策划、公文写作训练。</li>
+      </ul>
+      <div class="src">来源：<a href="https://www.htcrh.com/tw/info/1051/1122.htm">第二十八期团校培训通知</a>；<a href="https://www.htcrh.com/info/1004/6543.htm">五四表彰报道（青马在线荣誉）</a></div>
+    </div>
+
+    <div class="res"><div class="t">② 实践与活动机会（官方核实）</div>
+      <ul>
+        <li><b>品牌活动组织权：</b>参与校园文化艺术节、科技技能节、社团文化节、"雁峰之春"文化艺术节等全校性活动的策划执行，锻炼统筹组织能力。</li>
+        <li><b>社会实践：</b>暑期"三下乡"社会实践活动（团委品牌项目）；春运/暑运、衡阳东站等铁路一线志愿服务。</li>
+        <li><b>创新创业：</b>团委组织"挑战杯"等双创竞赛（2024年省赛获两金三铜），众创空间教授带队指导；"青春创业大讲堂"、创业培训。</li>
+      </ul>
+      <div class="src">来源：<a href="https://www.htcrh.com/tw/info/1050/1177.htm">三下乡报道</a>；<a href="https://www.htcrh.com/tw/info/1050/1154.htm">挑战杯两金三铜</a>；<a href="https://www.htcrh.com/info/1004/1590.htm">湖南日报70周年专稿（众创空间）</a></div>
+    </div>
+
+    <div class="res"><div class="t">③ 评优评先（官方核实）</div>
+      <ul>
+        <li><b>五四表彰：</b>年度五四表彰覆盖先进集体与先进个人（2023年表彰93个先进集体、584名先进个人），含优秀团员、优秀团干部等。</li>
+        <li><b>述职评议：</b>学生会工作人员每学期述职评议（优秀/良好/合格/不合格），<b>评奖评优、测评加分等依据评议结果择优提名，不与岗位简单挂钩</b>——即干得好才能评优。</li>
+        <li><b>团内评优：</b>组织部负责团内评优评先工作（二级学院团总支层面亦设同类评选）。</li>
+      </ul>
+      <div class="src">来源：<a href="https://www.htcrh.com/info/1004/6543.htm">五四表彰报道</a>；<a href="https://www.htcrh.com/xsc/info/1210/1084.htm">述职评议与备案表第13项</a></div>
+    </div>
+
+    <div class="res"><div class="t">④ 志愿服务与第二课堂学分（官方核实）</div>
+      <ul>
+        <li><b>志愿服务体系：</b>团委下设青年志愿服务中心、各院系设青年志愿者分会；在湖南志愿服务网注册后常态化参与，形成志愿服务时长与履历。</li>
+        <li><b>第二课堂学分：</b>全校实施"第二课堂成绩单"（到梦空间），团委发布的活动属"思想成长/志愿公益/实践实习/文体活动"等课程项目，参与可获二课积分；积分可转化为必修"创业实践"学分，毕业生成第二课堂成绩单。</li>
+      </ul>
+      <div class="src">来源：<a href="https://www.htcrh.com/info/1003/4321.htm">第二课堂成绩单培训会（官网）</a>；<a href="https://edu.youth.cn/jyzx/jyxw/202010/t20201013_12529066.htm">中国青年网（志愿体系）</a></div>
+    </div>
+
+    <div class="res"><div class="t">⑤ 入党推优（官方职责 + 需按程序）</div>
+      <ul>
+        <li>团委职责明确"推荐优秀团员作入党积极分子人选"（推优入党），是党组织发展学生党员的主要通道；二级学院设分党校入党积极分子培训班（如铁道建筑学院已办至第四十期），部分学院设学生党务中心协助培养考察。</li>
+        <li><b>争取方式：</b>保持团员身份→提交入党申请书→经团支部/团总支推荐→参加分党校培训→列为入党积极分子→考察培养。团学干部工作表现是推荐的重要参考，但<b>具体推荐名额与程序以学院党组织当年通知为准</b>。</li>
+      </ul>
+      <div class="src">来源：<a href="https://www.htcrh.com/tw/twgk.htm">团委概况（推优职责）</a>；<a href="https://www.htcrh.com/tdjs/info/1110/1720.htm">铁道建筑学院分党校第四十期培训班</a>；<a href="https://www.htcrh.com/tddx/info/1115/1901.htm">铁道电信学院学生党务中心</a></div>
+    </div>
+
+    <div class="res"><div class="t">⑥ 创业与就业平台（官方核实）</div>
+      <ul>
+        <li>团委职责"为青年创业、就业搭建平台"；通过挑战杯、"互联网+"、创客中国等竞赛及众创空间孵化对接项目；实践活动（春运、暑运、企业共建活动）直接触达广铁集团等铁路企业。</li>
+      </ul>
+      <div class="src">来源：<a href="https://www.htcrh.com/tw/twgk.htm">团委概况</a>；<a href="https://www.htcrh.com/tw/info/1050/1154.htm">挑战杯报道</a></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>六、分阶段行动建议（大一 → 大二）</h2>
+
+    <h3>大一：打基础、进体系</h3>
+    <ol>
+      <li><b>身份先行：</b>尚未入团的尽快向所在班级团支部提出入团申请、完成入团程序；已入团确认团员关系正常（智慧团建/团组织关系转接）。</li>
+      <li><b>竞选班级职务：</b>争取担任班级团支书/班委。班级团支部、班委会经历是后续校级推荐的基本盘（多校选拔明确要求）。</li>
+      <li><b>加入二级学院团总支/学生会做干事：</b>院团委下辖5个团总支，先在校院两级基层岗位熟悉团学工作、积累一年经历。</li>
+      <li><b>完成两项"标配"：</b>湖南志愿服务网注册并参加志愿活动（春运、社区、校园志愿均可）；青年大学习保持90%以上参与率（述职评议硬指标）。</li>
+      <li><b>稳住成绩：</b>目标专业排名前30%、不挂科——这是干部资格审查与述职评议的硬门槛。</li>
+      <li><b>进入团委视野：</b>参加团委举办的团校培训（争取优秀学员）、文化活动、双创讲座；加入"到梦空间"团委部落，形成二课记录。</li>
+    </ol>
+
+    <h3>大二：竞聘上位、出成果</h3>
+    <ol>
+      <li><b>紧盯换届通知：</b>关注团委频道"重要通知"与团总支通知，一般在学年末或新学年初发布院级组织干部竞聘公告（本校已有"第十三届院级组织学生干部"先例）。</li>
+      <li><b>准备竞聘材料：</b>报名表+简历（突出大一经历与成绩）+竞选演讲稿（讲清对岗位的理解与工作设想）；请辅导员/团总支出具推荐意见。</li>
+      <li><b>备考笔试面试：</b>复习团章、团的历史、时事政治、校史校情、团学工作基本知识、公文写作基础；面试按"自我介绍+岗位认知+现场提问"演练。</li>
+      <li><b>争取试用转正：</b>通过公示后进入试用期，期间全勤参会、主动领任务，确保考核合格正式聘任。</li>
+      <li><b>出成果、冲评优：</b>带队或深度参与三下乡/志愿项目、挑战杯等竞赛，争取五四表彰；学期述职评议争取"优秀"等次（直接关系评奖评优提名）。</li>
+      <li><b>政治发展：</b>递交入党申请书，争取经团支部推荐参加分党校入党积极分子培训班，进入推优入党通道。</li>
+    </ol>
+    <div class="notice"><b>通用提醒：</b>以上时间轴基于公开信息与通用高校团学节奏拟定，<b>具体时间节点、岗位名额、考试范围以院团委当年通知为准</b>。</div>
+  </section>
+
+  <section>
+    <h2>七、信息核实提示（来源清单 vs 需确认事项）</h2>
+
+    <h3>1. 本报告可直接采信的官网来源</h3>
+    <table>
+      <tr><th style="width:220px;">事项</th><th>官方来源（页面）</th></tr>
+      <tr><td>组织架构、职责、推优职责、部门设置</td><td><a href="https://www.htcrh.com/tw/twgk.htm">官网团委频道"团委概况"</a></td></tr>
+      <tr><td>政治面貌、成绩前30%无挂科、述职评议细则、推荐制流程、双代会</td><td><a href="https://www.htcrh.com/xsc/info/1210/1084.htm">官网学工处《学生会组织改革情况》（2020-12-08）</a></td></tr>
+      <tr><td>学生会/团学组织宪法性依据（学代会、团委指导学生会）</td><td><a href="https://www.htcrh.com/info/1005/1225.htm">官网《学院章程》第五十五~五十七条</a></td></tr>
+      <tr><td>团校培训存在、干部试用公示存在</td><td><a href="https://www.htcrh.com/tw/info/1051/1122.htm">团校培训通知</a>、<a href="https://www.htcrh.com/tw/info/1051/1123.htm">干部试用公示</a></td></tr>
+      <tr><td>五四表彰、挑战杯、三下乡、青马在线等资源</td><td><a href="https://www.htcrh.com/info/1004/6543.htm">五四表彰报道</a>、<a href="https://www.htcrh.com/tw/info/1050/1154.htm">挑战杯报道</a>、<a href="https://www.htcrh.com/tw/info/1050/1177.htm">三下乡报道</a></td></tr>
+      <tr><td>第二课堂成绩单制度</td><td><a href="https://www.htcrh.com/info/1003/4321.htm">官网《"第二课堂成绩单"制度和系统操作培训》</a></td></tr>
+    </table>
+
+    <h3>2. 必须向团委办公室 / 辅导员 / 二级学院团总支二次确认的事项</h3>
+    <div class="warn">
+      <ul>
+        <li><b>院团委纳新的报名入口与材料要求</b>（官网无在线报名系统；线下交表地点、截止时间）。</li>
+        <li><b>院团委部门干事的选拔条件</b>（是否同样执行"成绩前30%"；各岗位名额）。</li>
+        <li><b>笔试、面试的具体形式与考试范围</b>（官网未公开题库/大纲）。</li>
+        <li><b>试用期时长</b>与转正考核标准。</li>
+        <li><b>团委办公室联系电话/办公地点</b>（官网仅公开学院总机0734-2548759、招生电话0734-2522039；团委办公室专线未公开）。</li>
+        <li><b>入党推优的具体名额、时间与程序</b>（以学院党组织当年通知为准）。</li>
+        <li><b>团校培训报名方式与优秀学员评选细则</b>（通知正文为附件形式，官网未完整展示）。</li>
+        <li>各二级学院团总支招干时间与要求（院团委下辖5个团总支，细则各院不同）。</li>
+      </ul>
+    </div>
+    <div class="notice"><b>核实路径建议：</b>① 辅导员/班主任 → ② 二级学院团总支书记 → ③ 院团委办公室（可通过学院总机转接）。以上顺序由近及远，信息一致性最高。</div>
+  </section>
+
+  <footer>
+    本报告基于 2026-08-12 官网与公开渠道检索整理 · 官网：www.htcrh.com（团委频道 /tw）· 招生信息网：zsxx.htcrh.com<br>
+    报告中未核实或需确认事项均已明示，请以院团委当年正式通知为准；本报告不构成任何录取或加分承诺。
+  </footer>
+</div>
+
+<!-- ====== 底部铁轨 + 复兴号列车 ====== -->
+<div class="track-zone" id="trackZone">
+    <div class="gravel"></div>
+    <div class="rail-top"></div>
+    <div class="rail-bottom"></div>
+    <div class="train-wrap" id="trainWrap">
+        <svg class="train-svg" viewBox="0 0 440 76" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="rt-bodyWhite" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#FFFFFF"/><stop offset="55%" stop-color="#F5F5F5"/><stop offset="100%" stop-color="#E0E0E0"/>
+                </linearGradient>
+                <linearGradient id="rt-noseSilver" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#C8CED4"/><stop offset="55%" stop-color="#F2F4F6"/><stop offset="100%" stop-color="#C8CED4"/>
+                </linearGradient>
+                <linearGradient id="rt-window" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0A1929"/><stop offset="100%" stop-color="#1B5E8A"/>
+                </linearGradient>
+            </defs>
+            <path d="M 72 14 L 56 10 Q 36 8 20 17 Q 8 26 2 40 Q 0 48 3 56 Q 8 61 16 63 L 72 63 Z" fill="url(#rt-noseSilver)" stroke="#B0B7BF" stroke-width="0.3"/>
+            <path d="M 368 14 L 384 10 Q 404 8 420 17 Q 432 26 438 40 Q 440 48 437 56 Q 432 61 424 63 L 368 63 Z" fill="url(#rt-noseSilver)" stroke="#B0B7BF" stroke-width="0.3"/>
+            <rect x="72" y="12" width="296" height="51" fill="url(#rt-bodyWhite)"/>
+            <rect x="72" y="20" width="296" height="13" fill="url(#rt-window)"/>
+            <g fill="#D0D6DC" opacity="0.8">
+                <rect x="94" y="20" width="0.5" height="13"/><rect x="118" y="20" width="0.5" height="13"/><rect x="142" y="20" width="0.5" height="13"/>
+                <rect x="166" y="20" width="0.5" height="13"/><rect x="190" y="20" width="0.5" height="13"/><rect x="214" y="20" width="0.5" height="13"/>
+                <rect x="238" y="20" width="0.5" height="13"/><rect x="262" y="20" width="0.5" height="13"/><rect x="286" y="20" width="0.5" height="13"/>
+                <rect x="310" y="20" width="0.5" height="13"/><rect x="334" y="20" width="0.5" height="13"/><rect x="358" y="20" width="0.5" height="13"/>
+            </g>
+            <path d="M 9 24 Q 12 19 22 19 L 48 19 Q 54 19 57 24 L 55 32 Q 50 34 42 34 L 20 34 Q 14 32 9 29 Z" fill="url(#rt-window)"/>
+            <path d="M 11 25 Q 13 21 22 20 L 46 20 Q 51 20 53 23 L 52 28 Q 48 29 42 29 L 22 29 Q 16 28 11 27 Z" fill="#2A5A8C" opacity="0.4"/>
+            <path d="M 431 24 Q 428 19 418 19 L 392 19 Q 386 19 383 24 L 385 32 Q 390 34 398 34 L 420 34 Q 426 32 431 29 Z" fill="url(#rt-window)"/>
+            <path d="M 429 25 Q 427 21 418 20 L 394 20 Q 389 20 387 23 L 388 28 Q 392 29 398 29 L 418 29 Q 424 28 429 27 Z" fill="#2A5A8C" opacity="0.4"/>
+            <rect x="2" y="44" width="436" height="3.5" rx="1.5" fill="#D32F2F"/>
+            <rect x="68" y="57" width="304" height="3" rx="1" fill="#D32F2F"/>
+            <rect x="68" y="47.5" width="304" height="0.8" fill="#C8963E"/>
+            <rect x="68" y="60" width="304" height="0.8" fill="#C8963E"/>
+            <rect x="72" y="28" width="1.2" height="35" fill="#D32F2F" opacity="0.5"/>
+            <rect x="368" y="28" width="1.2" height="35" fill="#D32F2F" opacity="0.5"/>
+            <ellipse cx="4" cy="32" rx="3" ry="4.5" fill="#FFF9C4" opacity="0.95"/>
+            <ellipse cx="4" cy="32" rx="1.8" ry="3" fill="#FFFFFF"/>
+            <ellipse cx="4" cy="52" rx="3" ry="4" fill="#FFF9C4" opacity="0.8"/>
+            <circle cx="4" cy="32" r="7" fill="#FFF9C4" opacity="0.12"/>
+            <ellipse cx="436" cy="32" rx="3" ry="4.5" fill="#FF3D00" opacity="0.95"/>
+            <ellipse cx="436" cy="52" rx="3" ry="4" fill="#FF3D00" opacity="0.85"/>
+            <g stroke="#3A4A5A" stroke-width="0.9" fill="none">
+                <path d="M 180 12 L 180 5 L 195 3 L 210 5 L 250 5 L 265 3 L 280 5 L 280 12"/>
+                <path d="M 185 5 Q 230 -2 275 5"/>
+                <line x1="197" y1="5" x2="197" y2="2"/>
+                <line x1="265" y1="5" x2="265" y2="2"/>
+            </g>
+            <circle cx="197" cy="2.5" r="0.9" fill="#3A4A5A"/>
+            <circle cx="265" cy="2.5" r="0.9" fill="#3A4A5A"/>
+            <rect x="100" y="8" width="34" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="155" y="8" width="20" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="290" y="8" width="28" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="335" y="8" width="34" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="90" y="63" width="44" height="7" rx="1.5" fill="#2E3850"/>
+            <rect x="200" y="63" width="44" height="7" rx="1.5" fill="#2E3850"/>
+            <rect x="310" y="63" width="44" height="7" rx="1.5" fill="#2E3850"/>
+            <line x1="90" y1="66" x2="134" y2="66" stroke="#556070" stroke-width="0.3"/>
+            <line x1="200" y1="66" x2="244" y2="66" stroke="#556070" stroke-width="0.3"/>
+            <line x1="310" y1="66" x2="354" y2="66" stroke="#556070" stroke-width="0.3"/>
+            <g fill="#1C252A">
+                <circle cx="98" cy="72" r="3.2"/><circle cx="112" cy="72" r="3.2"/><circle cx="126" cy="72" r="3.2"/>
+                <circle cx="208" cy="72" r="3.2"/><circle cx="222" cy="72" r="3.2"/><circle cx="236" cy="72" r="3.2"/>
+                <circle cx="318" cy="72" r="3.2"/><circle cx="332" cy="72" r="3.2"/><circle cx="346" cy="72" r="3.2"/>
+            </g>
+            <g fill="#556070">
+                <circle cx="98" cy="71" r="0.8"/><circle cx="112" cy="71" r="0.8"/><circle cx="126" cy="71" r="0.8"/>
+                <circle cx="208" cy="71" r="0.8"/><circle cx="222" cy="71" r="0.8"/><circle cx="236" cy="71" r="0.8"/>
+                <circle cx="318" cy="71" r="0.8"/><circle cx="332" cy="71" r="0.8"/><circle cx="346" cy="71" r="0.8"/>
+            </g>
+            <rect x="2" y="62" width="436" height="1.5" fill="#000" opacity="0.06"/>
+            <text x="170" y="52" font-size="6.5" fill="#D32F2F" font-weight="800" font-family="sans-serif" text-anchor="middle" letter-spacing="0.8">复兴号</text>
+            <text x="278" y="52" font-size="5.5" fill="#1B3A5C" font-weight="700" font-family="sans-serif" text-anchor="middle" letter-spacing="0.5">CR400AF</text>
+        </svg>
+    </div>
+</div>
+
+<script>
+function buildTrack(){
+    const zone = document.getElementById('trackZone');
+    const vw = window.innerWidth;
+    let html = '';
+    for(let x=20;x<vw;x+=28){ html += '<div class="sleeper" style="left:'+x+'px;"></div>'; }
+    zone.insertAdjacentHTML('afterbegin', html);
+}
+function updateTrain(){
+    const vh = document.documentElement.clientHeight;
+    const sh = document.documentElement.scrollHeight;
+    const st = window.scrollY;
+    const progress = Math.min(st / (sh - vh), 1);
+    const train = document.getElementById('trainWrap');
+    train.style.transform = 'translateX(' + (progress * (window.innerWidth - 460)) + 'px)';
+}
+buildTrack();
+window.addEventListener('scroll', updateTrain, {passive:true});
+window.addEventListener('resize', updateTrain);
+updateTrain();
+</script>
+</body>
+</html>
