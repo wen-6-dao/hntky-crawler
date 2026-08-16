@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>校级组织与资源核查报告 — 铁道运输学院</title>
+<style>
+/* ===== 网站统一外壳：导航栏 + 底部铁轨 + 复兴号列车 ===== */
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; padding-bottom:96px;}
+.navbar{
+    position:sticky; top:0; z-index:100;
+    background:linear-gradient(135deg,#1B3A5C,#102844);
+    padding:0 24px; height:60px;
+    display:flex; align-items:center; justify-content:space-between;
+    box-shadow:0 2px 16px rgba(0,0,0,.3);
+}
+.navbar .logo{display:flex; align-items:center; gap:10px; text-decoration:none;}
+.navbar .logo img{height:36px; width:auto;}
+.navbar .logo .divider{width:1px; height:26px; background:rgba(255,255,255,.3);}
+.navbar .logo span{color:#fff; font-size:15px; font-weight:600; letter-spacing:1px; white-space:nowrap;}
+.navbar .links{display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;}
+.navbar .links a{
+    color:rgba(255,255,255,.8); text-decoration:none;
+    font-size:13px; padding:5px 11px; border-radius:5px;
+    transition:all .2s; white-space:nowrap;
+}
+.navbar .links a:hover,.navbar .links a.active{color:#fff; background:rgba(255,255,255,.15);}
+.nav-toggle{display:none; background:none; border:none; color:#fff; font-size:24px; cursor:pointer;}
+.track-zone{position:fixed; bottom:0; left:0; right:0; height:96px; z-index:150; pointer-events:none;}
+.track-zone .gravel{
+    position:absolute; inset:0;
+    background:repeating-linear-gradient(90deg,transparent,transparent 8px,rgba(139,119,101,.08) 8px,rgba(139,119,101,.08) 9px),
+                linear-gradient(180deg,#D4C5B2 0%,#C7B59E 40%,#BAAB95 100%);
+    border-top:2px solid rgba(0,0,0,.12);
+}
+.rail-top,.rail-bottom{position:absolute; left:0; right:0; height:4px; background:linear-gradient(180deg,#9E9E9E,#BDBDBD 50%,#757575); border-radius:2px;}
+.rail-top{top:14px;} .rail-bottom{top:38px;}
+.sleeper{position:absolute; bottom:0; width:6px; height:56px; background:linear-gradient(180deg,#8D6E63,#6D4C41); border-radius:3px; opacity:.6;}
+.train-wrap{position:absolute; bottom:10px; left:0; transform:translateX(0); z-index:10; will-change:transform;}
+.train-svg{width:440px; height:76px; display:block;}
+@media (max-width:768px){
+    .navbar .links{display:none;}
+    .navbar .links.open{display:flex; flex-direction:column; position:absolute; top:60px; left:0; right:0; background:#1B3A5C; padding:14px 20px; gap:4px; z-index:101;}
+    .nav-toggle{display:block;}
+    .train-svg{width:310px; height:54px;}
+}
+
+/* ===== 报告正文样式（原样保留） ===== */
+  :root{
+    --blue:#1a5fb4; --blue-dark:#0d3d7a; --blue-light:#e8f0fb; --bg:#f7f9fc;
+    --card:#ffffff; --border:#d8e2f0; --text:#1c2733; --muted:#5a6b7d;
+    --green:#1e8e3e; --green-bg:#e6f4ea; --amber:#b26a00; --amber-bg:#fff4e0;
+    --red:#c5221f; --red-bg:#fdecea;
+  }
+  body{background:var(--bg); color:var(--text); line-height:1.7;}
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px;}
+  header{background:linear-gradient(135deg,#0d3d7a,#1a5fb4); color:#fff; padding:36px 0 30px; margin-bottom:26px;}
+  header h1{font-size:24px; letter-spacing:1px; margin-bottom:8px;}
+  header .sub{font-size:14px; opacity:.9;}
+  .meta{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; font-size:12px;}
+  .meta span{background:rgba(255,255,255,.16); padding:4px 10px; border-radius:20px;}
+  .legend{display:flex; flex-wrap:wrap; gap:14px; font-size:13px; margin:14px 0 4px;}
+  .legend .it{display:flex; align-items:center; gap:6px;}
+  .dot{width:12px; height:12px; border-radius:3px; display:inline-block;}
+  .dot.ok{background:var(--green);} .dot.med{background:var(--amber);} .dot.no{background:var(--red);}
+  section{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:22px 24px; margin-bottom:22px; box-shadow:0 1px 3px rgba(13,61,122,.06);}
+  h2{font-size:19px; color:var(--blue-dark); border-left:4px solid var(--blue); padding-left:10px; margin-bottom:14px;}
+  h3{font-size:15px; color:var(--blue-dark); margin:18px 0 8px;}
+  h4{font-size:14px; margin:10px 0 6px;}
+  p{font-size:14px; margin-bottom:8px;}
+  .org{background:#fbfdff; border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin:14px 0;}
+  .org h4{font-size:15px; color:var(--blue); margin-bottom:6px;}
+  .tag{display:inline-block; font-size:11px; padding:1px 8px; border-radius:10px; margin-left:8px; vertical-align:2px;}
+  .tag.ok{background:var(--green-bg); color:var(--green);}
+  .tag.med{background:var(--amber-bg); color:var(--amber);}
+  .tag.no{background:var(--red-bg); color:var(--red);}
+  .item{margin:8px 0 4px;}
+  .item b{color:var(--blue-dark);}
+  .src{font-size:12px; color:var(--muted); margin-top:6px; padding-top:6px; border-top:1px dashed var(--border);}
+  .src a{color:var(--blue); text-decoration:none; word-break:break-all;}
+  .src a:hover{text-decoration:underline;}
+  ul,ol{margin:4px 0 8px 22px; font-size:14px;}
+  li{margin-bottom:4px;}
+  .notice{background:var(--amber-bg); border:1px solid #f0d9a8; border-radius:8px; padding:12px 14px; font-size:13px; margin:10px 0;}
+  .warn{background:var(--red-bg); border:1px solid #f2c4c2; border-radius:8px; padding:12px 14px; font-size:13px; margin:10px 0;}
+  .ok-box{background:var(--green-bg); border:1px solid #bfe3c8; border-radius:8px; padding:12px 14px; font-size:13px; margin:10px 0;}
+  table{width:100%; border-collapse:collapse; font-size:13px; margin:10px 0;}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--blue-light); color:var(--blue-dark);}
+  .res{background:#f6f9fe; border-radius:8px; padding:10px 14px; margin:8px 0;}
+  .res .t{font-size:12px; color:var(--blue-dark); font-weight:bold; margin-bottom:4px;}
+  footer{font-size:12px; color:var(--muted); text-align:center; margin-top:10px;}
+</style>
+</head>
+<body>
+
+<!-- ====== 统一导航栏 ====== -->
+<nav class="navbar" id="top">
+    <a class="logo" href="index.html">
+        <img src="logo.png" alt="湖南高速铁路职业技术学院校徽">
+        <div class="divider"></div>
+        <span>铁道运输学院</span>
+    </a>
+    <button class="nav-toggle" onclick="document.querySelector('.navbar .links').classList.toggle('open')">☰</button>
+    <div class="links">
+        <a href="index.html#intro">学院简介</a>
+        <a href="index.html#org">学生组织</a>
+        <a href="index.html#contest">竞赛资源</a>
+        <a href="index.html#grad">优秀毕业生</a>
+        <a href="index.html#honor">奖项荣誉</a>
+        <a href="report-org.html" class="active">组织核查报告</a>
+        <a href="report-tuanwei.html">团委加入方案</a>
+    </div>
+</nav>
+
+<!-- ====== 报告正文（原样保留） ====== -->
+<header>
+  <div class="wrap">
+    <h1>湖南高速铁路职业技术学院 · 校级组织与可获得资源核查报告</h1>
+    <div class="sub">仅采编官方渠道（官网 www.htcrh.com / www.htcrh.edu.cn、学院官方微信、官方新闻报道），未核实信息一律明示，不作推断补充。</div>
+    <div class="meta">
+      <span>检索日期：2026-08-10</span>
+      <span>学校全称：湖南高速铁路职业技术学院（湖南高铁职院，代码13941）</span>
+      <span>地址：湖南省衡阳市珠晖区三环东路南9号</span>
+      <span>招生电话：0734-2522039 / 2548115</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2>〇、使用方法与可信度说明</h2>
+    <div class="legend">
+      <span class="it"><span class="dot ok"></span>官方网页直接核实（官网栏目/页面）</span>
+      <span class="it"><span class="dot med"></span>官方微信/官方新闻报道佐证（媒体报道、学院官微）</span>
+      <span class="it"><span class="dot no"></span>未能核实（公开渠道无权威信息）</span>
+    </div>
+    <p style="margin-top:10px;">本报告只收录可在公开官方渠道查证的组织与资源信息；每条关键信息均标注来源。特别提示：<b>学校官网未公开完整的学生社团总名单</b>，报告中"社团群"类条目仅列出经官方或官方媒体报道核实的社团名称，不代表全部社团。</p>
+  </section>
+
+  <section>
+    <h2>一、核心领导与组织枢纽</h2>
+
+    <div class="org">
+      <h4>1. 共青团湖南高速铁路职业技术学院委员会（院团委）<span class="tag ok">官方核实</span></h4>
+      <div class="item"><b>简介：</b>接受中共湖南高速铁路职业技术学院委员会、共青团衡阳市委双重领导，是学院先进青年的群众组织和共青团组织的最高机构。下设办公室、组织部、宣传部、实践部4个部门，下辖5个团总支和1个综合团支部；负责指导院学生联合会（学生会）和院学生社团联合会开展工作。团委曾获"全国铁路五四红旗团委""湖南省无偿献血先进单位""湖南青马在线优秀组织单位""衡阳市五四红旗团委"等荣誉。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>第二课堂学分：</b>团委牵头实施"第二课堂成绩单"制度，依托"到梦空间"平台发布活动、记录学分，学生参与活动实时获得二课积分并生成成长记录；官方微信明确"积分可转化为必修'创业实践'学分"。</li>
+          <li><b>评优评先：</b>每年"五四"表彰（2023年表彰93个先进集体、584名先进个人）；团内评优评先、优秀团员/团干评选。</li>
+          <li><b>技能培训：</b>团校培训（如第二十七、二十八期团校培训班，表彰优秀学员）；"湖南青马在线"（青年马克思主义者）网络培训，学院获省级"优秀组织单位"。</li>
+          <li><b>创业就业平台：</b>团委职责明确"为青年创业、就业搭建平台"；组织"挑战杯"等双创竞赛并带队指导。</li>
+          <li><b>品牌活动平台：</b>校园文化艺术节、科技技能节、社团文化节、"雁峰之春"文化艺术节等活动载体。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/tw/twgk.htm">团委概况（官网栏目"团委"）</a>；
+        <a href="https://www.htcrh.com/info/1004/6543.htm">五四表彰大会报道（官网）</a>；
+        <a href="https://www.htcrh.com/tw/info/1051/1122.htm">第二十八期团校培训通知（官网团委"重要通知"）</a>；
+        <a href="https://www.htcrh.com/tw/info/1050/1154.htm">"挑战杯"两金三铜（官网团委）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>2. 湖南高速铁路职业技术学院学生联合会（院学生会）<span class="tag ok">官方核实</span></h4>
+      <div class="item"><b>简介：</b>依据学院章程，学生会组织按照民主集中制原则，在学院党委领导和学院团委指导下独立自主开展工作；学生代表大会（学代会）是学生会最高权力机关，每年举行一次，代表由各二级学院经班级、二级学院学生会选举产生，每届任期一年；学生会是学代会闭会期间的工作机构。学院设立学生工作委员会，半数委员由学生担任，支持学生直接参与学院民主管理。</div>
+      <div class="item"><b>校级部门设置：</b>官网未公开院学生会校级部门完整名单，<span class="tag no">未能核实</span>；据二级学院公开页面，院系学生会一般设有办公室、学习部、纪保部、宿管部、卫生部、文体部等部门（校级以实际公示为准）。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>民主参与渠道：</b>通过学代会行使民主权利、参与学院治理与监督；章程赋予"征求同学意见、合理有序表达和维护同学正当权益"的职责。</li>
+          <li><b>评优评先：</b>学生会干部纳入团学骨干培养与考核（如"第十三届院级组织学生干部试用公示"），五四表彰设先进集体与先进个人。</li>
+          <li><b>干部培养：</b>团委组织团校培训面向全院学生组织主要学生干部。</li>
+          <li><b>第二课堂学分：</b>学生会为"到梦空间"六大类部落之一（班团党组织、年级组、学生会、社团与协会、学校部门、普通部落），参与活动记录二课积分。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/info/1005/1225.htm">《湖南高速铁路职业技术学院章程》第五十五~五十七条（官网）</a>；
+        <a href="https://www.htcrh.com/tw/info/1057/1082.htm">学生会（研究生会）改革情况自评公开（官网团委"高铁团讯"）</a>；
+        <a href="https://www.htcrh.com/tw/info/1051/1123.htm">第十三届院级组织学生干部试用公示（官网团委）</a>；
+        <a href="https://www.htcrh.com/xsc/">学生工作处官网（学生活动栏目载院学生联合会例会）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>3. 湖南高速铁路职业技术学院学生社团联合会（院学社联）<span class="tag ok">名称核实 / 架构未核实</span></h4>
+      <div class="item"><b>简介：</b>团委概况明确"负责指导院学生联合会、学生社团联合会开展工作"，确认学生社团联合会（学社联）为院团委指导下的校级组织；学院支持学生基于共同兴趣爱好、成长成才需要组织学生社团，学生社团在院团委指导下依照学院有关规章开展活动（学院章程）。<span class="tag no">学社联内部机构设置（秘书处/各部门）及完整社团名录未在公开渠道发布，未能核实。</span></div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>社团活动平台：</b>以"社团文化节"为品牌载体（与科技技能节、"雁峰之春"文化艺术节并称"三节"）。</li>
+          <li><b>评优评先：</b>社团可参评全国/省级"活力社团"（本校政协提案研究协会获全国"活力社团"、机车驾驶协会获省"活力社团"TOP100）、"湖南省百优社团"（南风汉服社等）。</li>
+          <li><b>第二课堂学分：</b>社团与协会为"到梦空间"部落类型之一，社团活动计入二课积分。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/tw/twgk.htm">团委概况（官网）</a>；
+        <a href="https://www.htcrh.com/info/1005/1225.htm">学院章程第五十六条（官网）</a>；
+        <a href="https://www.htcrh.com/info/1004/6543.htm">五四表彰报道（"三节"表述，官网）</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>二、志愿服务与社会实践类</h2>
+
+    <div class="org">
+      <h4>4. 湖南高速铁路职业技术学院青年志愿者服务中心（青年志愿者协会）<span class="tag ok">官方报道核实</span></h4>
+      <div class="item"><b>简介：</b>团委下设的青年志愿服务组织（官方报道表述为"青年志愿服务中心"），各院系团总支设青年志愿者分会，形成"认证与激励、中心力量培养、志愿项目组织与安排、社会力量支持"四方面构成的志愿服务综合体系。品牌形象为"高铁小红帽"；长期服务春运一线，在衡阳东站设有志愿者服务站，并参与"三下乡"暑期社会实践、社区志愿服务等。据百度百科词条：前身为1998年校团总支志愿者工作部，2007年升格院级协会，2011年更名（此段非官网来源，仅供参考）。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>第二课堂学分：</b>志愿服务属第二课堂"志愿公益"类课程项目，计入二课积分。</li>
+          <li><b>实践经历与评优：</b>"三下乡"等实践活动可形成履历；学院层面进行志愿活动表彰（如先进志愿者集体/个人，学雷锋志愿者先进集体）。</li>
+          <li><b>行业实习就业触点：</b>春运、暑运赴高铁站/火车站志愿服务（如铁道工程学院师生投身广九客运段暑运），贴近铁路企业一线岗位。</li>
+          <li><b>培训：</b>志愿项目组织与中心力量培养纳入团委综合体系。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://edu.youth.cn/jyzx/jyxw/202010/t20201013_12529066.htm">中国青年网《高铁小红帽……让志愿服务"靓"起来》</a>；
+        <a href="https://www.htcrh.com/tw/info/1050/1177.htm">2024年"三下乡"社会实践（官网团委）</a>；
+        <a href="https://www.htcrh.com/tdgc/info/1073/3006.htm">铁道工程学院团学组织招新（设"青年志愿者协会分会"）</a>；
+        <a href="https://www.htcrh.com/tw/info/1050/1130.htm">低温雨雪爱心围巾志愿活动（官网团委）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>5. 铁道工程学院"星火宣讲团"<span class="tag ok">官方核实</span></h4>
+      <div class="item"><b>简介：</b>铁道工程学院组建的大学生宣讲团，入选2026年全国大学生"勤俭节约"宣讲团名单，并入选国家级志愿宣讲团（媒体多篇报道），是学院志愿服务/宣讲品牌组织。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>国家级项目履历：</b>入选全国大学生志愿宣讲团名单，可形成高含金量实践履历。</li>
+          <li><b>宣讲/表达训练：</b>承担面向校内外（含乡村）的主题宣讲任务，锻炼演讲与组织能力。</li>
+          <li><b>第二课堂学分：</b>宣讲实践属社会实践类活动，计入二课记录。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/index.htm">官网首页新闻（"星火宣讲团"入选2026全国大学生'勤俭节约'宣讲团名单）</a>；
+        <a href="https://www.htcrh.com/tw/info/1050/1173.htm">"红色轻骑"走基层报道（官网团委，同类宣讲实践）</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>三、宣传与新媒体类</h2>
+
+    <div class="org">
+      <h4>6. 湖南高速铁路职业技术学院大学生记者团<span class="tag ok">官方核实</span></h4>
+      <div class="item"><b>简介：</b>由学院宣传统战处（宣传部）指导的学生新闻组织，2007年建立；承担校园新闻采编、摄影、新媒体运营，运营校园网、官方微信等平台；下设摄影部等部门（第十四届设有团长、副团长、摄影部等）。学院官微连续5年入选"全国职业院校官微五十强"（曾居全国第35位），获腾讯微校全国高校公众号"最佳人气奖"等。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>专业培训：</b>宣传部定期邀请国内知名专家、资深记者来校讲座培训（如《中国教育报》高级记者李伦娥专题培训）。</li>
+          <li><b>评优评先：</b>内部设"优秀新闻工作者""优秀新媒体工作者"等评选；成员可获五四表彰（优秀团员等）。</li>
+          <li><b>媒体实训与作品发表：</b>与衡阳日报"掌上衡阳"共建校园记者站，提供媒体实训基地与发稿机会。</li>
+          <li><b>技能成长：</b>新闻写作、摄影摄像、排版设计、新媒体运营等实操技能。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/info/1003/4343.htm">"掌上衡阳"记者站授牌仪式（官网）</a>；
+        <a href="https://www.sohu.com/a/434944191_684960">大学生记者团换届展示（学院官方微信）</a>；
+        <a href="https://www.sohu.com/a/355649923_684960">记者团背后的故事（学院官方微信）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>7. 院广播站（官方名称待核实）<span class="tag med">官方活动提及</span></h4>
+      <div class="item"><b>简介：</b>学院晚会等活动中出现"院广播站"朗诵表演；官网设有"高铁之声"媒体栏目（主要刊载媒体报道）。<span class="tag no">广播站正式名称、组织归属（宣传统战处/团委）未在公开渠道明确，未能核实。</span></div>
+      <div class="res"><div class="t">可获得资源（部分核实）</div>
+        <ul><li><b>播音与主持锻炼：</b>参与校园广播、大型活动朗诵等。<b>二课积分、评优细则：未能核实。</b></li></ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/info/1003/4387.htm">中泰联欢晚会报道（"院广播站带来的朗诵"）</a>；
+        <a href="https://www.htcrh.com/index.htm">官网首页"高铁之声"栏目</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>四、文体艺术类</h2>
+
+    <div class="org">
+      <h4>8. 湖南高速铁路职业技术学院大学生艺术团<span class="tag ok">官方活动核实</span></h4>
+      <div class="item"><b>简介：</b>校级文艺组织，参与迎新、毕业典礼、中外联欢等大型晚会演出，设器乐队等队伍，曾举办校园"十佳歌手"决赛等活动。<span class="tag no">艺术团完整编制（声乐/舞蹈/器乐等队伍清单）未公开，未能核实。</span></div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>演出平台：</b>大型晚会（如"中泰一家亲"联欢晚会）、艺术节演出机会。</li>
+          <li><b>艺术培训与团队协作：</b>排练、编排和舞台实践。</li>
+          <li><b>第二课堂学分：</b>文体活动属第二课堂"文体活动"类课程项目，计入二课积分。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/info/1003/4387.htm">中泰联欢晚会报道（官网）</a>；
+        <a href="https://www.htcrh.com/tw/hdzl/2.htm">团委活动专栏（"大学生艺术团第三届校园'十佳歌手'决赛"）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>9. 高铁礼仪队（"高铁礼仪之星"）<span class="tag med">官方媒体报道</span></h4>
+      <div class="item"><b>简介：</b>服务论坛、会议、国际交流活动及市、校重大活动的礼仪志愿队伍；定期为市博物馆、高铁文化中心等提供志愿服务；"高铁礼仪之星"2019年获湖南省百佳社团称号（校级礼仪品牌）。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>礼仪专业培训：</b>动作排练、礼仪规范训练。</li>
+          <li><b>重大活动实践：</b>参与市级/校级重大活动与涉外交流活动的礼仪接待，积累高端实践经历。</li>
+          <li><b>评优评先：</b>获省级"百佳社团"荣誉的组织履历。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://edu.youth.cn/jyzx/jyxw/202010/t20201013_12529066.htm">中国青年网（高铁礼仪队服务重大活动）</a>；
+        <a href="http://www.e0734.com/index.php?m=content&amp;c=index&amp;a=show&amp;catid=2271&amp;id=180">衡阳新闻网（"高铁礼仪之星"2019年获省百佳社团）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>10. 国学与文体社团群（15个国学艺术团体 + 其他类型社团）<span class="tag med">官方媒体报道核实</span></h4>
+      <div class="item"><b>简介：</b>据湖南日报及学院官方报道，学院建有国学艺术社团15个，其他类型社团约45个（2018年口径），打造"高铁国风"文化品牌。经核实已确认存在的社团包括：南风汉服社、武术协会、书法协会（倾墨书法协会）、围棋协会、旗袍社、篆刻匠社、茶文化协会、翰轩棋社、采芑汉文化社、星空舞台艺术社团、阳光健美社、乐起动力社、舞龙队等。<span class="tag no">完整社团总名单官网未公开，未能核实；具体社团现状（是否仍活跃）需以当年招新公告为准。</span></div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>评优评先：</b>南风汉服社2016、2017年连续获"湖南省高校最受欢迎百优学生社团"，2025年获"榜样100"全国优秀大学生社团；南风汉服社2025年获评全国百强（官方媒体口径）。</li>
+          <li><b>校内外展演平台：</b>国学风采大赛、端午/中秋等传统节日活动、汉服文化周、省乡射礼等校内外交流。</li>
+          <li><b>第二课堂学分：</b>社团活动计入"到梦空间"二课积分。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/info/1004/1590.htm">湖南日报70周年专稿（官网转载，"15个国学艺术团体"）</a>；
+        <a href="http://www.e0734.com/index.php?a=show&amp;catid=2271&amp;id=81&amp;m=content">衡阳新闻网（南风汉服社2015年成立、省百优社团）</a>；
+        <a href="https://bendi.news.163.com/hunan/26/0419/15/KQSTPNH004369D91.html">学院文化育人报道（南风汉服社"榜样100"）</a>；
+        <a href="https://www.htcrh.com/info/1003/4387.htm">中泰联欢晚会（星空舞台艺术社团、阳光健美社等）</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>五、国防与安全类</h2>
+
+    <div class="org">
+      <h4>11. 湖南高速铁路职业技术学院国旗护卫队（国旗班）<span class="tag med">官方媒体核实</span></h4>
+      <div class="item"><b>简介：</b>承担升降国旗、重大活动仪仗任务。官方媒体报道：2022年升国旗仪式上"15名国旗护卫队的同学们托着半自动步枪"完成升旗；学院曾承办湖南省大学生"国旗班风采展示大赛"衡阳站；校运会开幕式设国旗队方阵。<span class="tag no">国旗护卫队的组织归口（武装部/学工处/保卫处）、纳新与训练机制未在公开渠道公布，未能核实。</span></div>
+      <div class="res"><div class="t">可获得资源（部分核实）</div>
+        <ul>
+          <li><b>仪仗训练与荣誉感：</b>参与校级重大仪仗活动（开学典礼、校运会、升国旗仪式等）。</li>
+          <li><b>省级展示舞台：</b>参与湖南省大学生国旗班风采展示大赛等省级活动。</li>
+          <li><b>二课积分/评优细则：未能核实。</b></li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.163.com/dy/article/H19RGJKF0550HXM1.html">三湘都市报/红网：虎年首次升国旗仪式（15名国旗护卫队）</a>；
+        <a href="https://www.163.com/dy/article/EJKQ8E1H05168VJR.html">湖南省国旗班风采展示大赛衡阳站（本院协办）</a>；
+        <a href="https://www.sohu.com/a/350896953_684960">校运会开幕式报道（学院官方微信：国旗队）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>12. 护校队 / 军训教官团（退役复学军人）<span class="tag med">官方活动提及</span></h4>
+      <div class="item"><b>简介：</b>晚会报道中出现"护校队"表演；军训会操由"退役复学军人"担任教官（2024级军训会操报道）。学工处设"武装工作"栏目负责军训、征兵工作。<span class="tag no">护校队组织性质（保卫处下属/学生组织）未公开，未能核实。</span></div>
+      <div class="res"><div class="t">可获得资源（部分核实）</div>
+        <ul>
+          <li><b>军训教官岗位：</b>退役复学学生可担任新生军训教官（学院官方报道），锻炼组织指挥能力。</li>
+          <li><b>征兵服务：</b>武装工作栏目提供应征入伍政策宣传与流程服务（官网学工处）。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/xsc/wzgz.htm">学工处"武装工作"栏目（官网）</a>；
+        <a href="http://www.e0734.com/c/2024/09/30/1297-583711.html">衡阳新闻网：2024级军训会操（退役复学军人任教官）</a>；
+        <a href="https://www.htcrh.com/info/1003/4387.htm">中泰联欢晚会（护校队表演）</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>六、专业类协会与技能实践社团</h2>
+
+    <div class="org">
+      <h4>13. 湖南高速铁路职业技术学院机车驾驶协会（铁道动力学院）<span class="tag ok">官方核实</span></h4>
+      <div class="item"><b>简介：</b>铁道动力学院标杆性专业社团，获评2023-2024学年湖南省高校"活力社团"TOP100。依托学院机车模拟驾驶中心、电力机车控制实训室、LKJ-2000型监控装置等先进实训设施，可独立完成机车驾驶与机车检修全方位操作训练，坚持"以赛促教、以赛促学"。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>实训设施使用：</b>机车模拟驾驶中心、电力机车控制实训室、LKJ-2000监控装置等（专业级设备）。</li>
+          <li><b>竞赛参赛资格：</b>协会成员参加"一带一路暨金砖国家技能发展与技术创新大赛"并3次获全国三等奖。</li>
+          <li><b>导师指导：</b>协会设指导老师（如指导老师郑学贤），学院院长/专业教师参与指导。</li>
+          <li><b>专业课程衔接：</b>支撑铁道机车运用与维护专业课程建设与技能培养。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/tddl/info/1126/2309.htm">机车驾驶协会获省"活力社团"TOP100（官网铁道动力学院栏目）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>14. 湖南高速铁路职业技术学院政协提案研究协会<span class="tag ok">官方核实</span></h4>
+      <div class="item"><b>简介：</b>2020年成立，通过了解政协、关注民生、调查研究、提案写作训练、模拟议政等活动，搭建校内与校外、理论与实践、个人与社会之间的桥梁。2024年获评2023-2024学年全国高校"活力社团"（共青团中央基层建设部指导、中国青年报社主办）。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>国家级荣誉履历：</b>全国高校"活力社团"（校园内唯一入选组织，含金量高）。</li>
+          <li><b>提案写作与调查研究训练：</b>模拟议政、提案写作培训。</li>
+          <li><b>社会参与平台：</b>关注民生议题，提升社会参与感与制度认知。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/tw/info/1050/1152.htm">政协提案研究协会获评全国"活力社团"（官网团委）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>15. 行车社（铁道运输学院）<span class="tag med">官方活动提及</span></h4>
+      <div class="item"><b>简介：</b>铁道运输学院专业社团，曾在大型晚会上表演手信号旗展示。<span class="tag no">协会详细介绍与活动制度未公开，未能核实。</span></div>
+      <div class="res"><div class="t">可获得资源（部分核实）</div>
+        <ul><li><b>专业技能实践：</b>行车指挥手信号旗等铁路运输专业实操演练；<b>竞赛/学分细则：未能核实。</b></li></ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/info/1003/4387.htm">中泰联欢晚会报道（"运输系礼仪队和行车社"表演）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>16. 铁道电信学院特色社团三件套 + 学生党务中心<span class="tag ok">官方核实</span></h4>
+      <div class="item"><b>简介：</b>据铁道电信学院官方"团学组织"介绍：下设学生会6部门（办公室、学习部、纪保部、宿管部、卫生部、文体部）、团总支8部门（办公室、组织部、权益部、社团部、实践部、心理信息部、双创就业部、第二课堂），及3个特色社团、1个学生党务中心：
+        <ul style="margin-top:6px;">
+          <li><b>红音理论宣传团：</b>党的理论学习研究与宣传普及。</li>
+          <li><b>乘风新媒体（乘风智媒光影社）：</b>运营学院官方新媒体平台（微信公众号、视频号、抖音），新闻采编、内容创作、视觉设计。</li>
+          <li><b>锋行家电工坊（雷锋家电工作室）：</b>电子电器维修、制作、创新实践，提供义务维修服务。</li>
+          <li><b>学生党务中心：</b>协助学生党建工作，入党积极分子培养考察、党员发展材料整理、党员教育管理。</li>
+        </ul>
+      </div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>第二课堂学分：</b>学院团总支专设"第二课堂"部门负责"第二课堂成绩单"制度实施与管理。</li>
+          <li><b>技能培训：</b>学习部组织学术讲座、知识竞赛、技能培训；锋行家电工坊提供家电维修实操与志愿服务实践。</li>
+          <li><b>新媒体技能：</b>乘风新媒体提供公众号/视频号/抖音运营、采编设计实操。</li>
+          <li><b>政治发展：</b>学生党务中心为入党积极分子培养考察、向党组织靠拢的平台。</li>
+          <li><b>就业与双创：</b>团总支"双创就业部"组织创新创业讲座/竞赛/项目孵化，提供就业信息与政策宣传。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/tddx/info/1115/1901.htm">铁道电信学院团学组织介绍（官网铁道电信学院栏目）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>17. 各二级学院团总支、学生会（院系级团学组织）<span class="tag ok">官方核实</span></h4>
+      <div class="item"><b>简介：</b>学院设7个二级学院（铁道工程学院、铁道运输学院、铁道建筑学院、铁道电信学院、铁道动力学院、装备制造学院、铁道管理学院），各院设团总支与学生会，构成院级组织的基层体系。以铁道工程学院第二十届团学组织为例：设办公室、组织部、宣传部、青年志愿者协会分会、创新创业部、权益部、学习部、卫生部、纪保部、体育部、女生部、文艺部、生活部、心理信息部、就业服务部、礼仪部等部门。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>能力锻炼平台：</b>活动策划、宣传、礼仪、就业服务、权益维护等多岗位实践。</li>
+          <li><b>评优评先：</b>团内评优评先（组织部负责"团内评优评先"）、五四表彰通道。</li>
+          <li><b>第二课堂：</b>院系活动同步纳入二课积分管理。</li>
+          <li><b>就业与双创服务：</b>就业服务部配合招生就业处开展就业活动；创新创业部对接创业资源、孵化项目。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/tdgc/info/1073/3006.htm">铁道工程学院团学组织招新（官网铁道工程学院栏目）</a>；
+        <a href="https://www.htcrh.com/tddx/info/1115/1901.htm">铁道电信学院团学组织介绍（官网）</a>；
+        <a href="https://www.htcrh.com/info/1005/1228.htm">2020年预算公开之机构设置（官网，二级学院构成）</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>七、勤工助学与资助体系（学生可获得的制度性资源）</h2>
+
+    <div class="org">
+      <h4>18. 学生资助中心（学生工作处下设，管理勤工助学）<span class="tag ok">官方核实</span></h4>
+      <div class="item"><b>简介：</b>学生工作处（学工处）下设学生资助中心，专职负责勤工助学管理：岗位设置、公开招聘、岗前培训、劳酬发放、监督调解；另有"奖、助、贷、勤、减、免、补、偿"八位一体发展型资助体系（学院署名征文，刊于湖南省教育厅平台）。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>勤工助学岗位（院内固定/临时岗）：</b>依《勤工助学管理办法（2016修订版）》：固定岗位按月计酬，每月40个工时酬金原则上不低于160元；临时岗位原则上每小时不低于8元；每周不超过8小时、每月不超过40小时；岗位向全院公示、公开择优录用，优先家庭经济困难学生，上岗前有安全/技术/职业道德培训。</li>
+          <li><b>奖学金：</b>2026年单招章程（第40条）：国家奖学金10000元/人/年；国家励志奖学金6000元/人/年；国家助学金一等4800、二等3700、三等2600元/人/年；学院奖学金特等2000、一等1000、二等400、三等300元/人/年。</li>
+          <li><b>助学贷款与困难补助：</b>生源地助学贷款、特困补助、临时困难补助、学费减免、绿色通道等（资助栏目）。</li>
+          <li><b>求职补贴：</b>毕业生求职补贴1500元/人次（第三方整理的校内资助清单，具体以当年政策为准）。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/xsc/info/1219/1160.htm">《勤工助学管理办法（2016修订版）》（官网学工处）</a>；
+        <a href="https://www.htcrh.com/xsc/xszz/zzzc.htm">学工处"学生资助"栏目（官网）</a>；
+        <a href="https://m.gaokao.cn/gk-mb/124/2034">《2026年高职单独招生章程》第四十条（学院招生信息网发布，此处为转载全文）</a>；
+        <a href="https://m.voc.com.cn/xhn/news/202501/21592042.html">新湖南：发展型资助（学院署名征文）</a>
+      </div>
+    </div>
+
+    <div class="org">
+      <h4>19. 众创空间（校级创新创业平台）<span class="tag ok">官方核实</span></h4>
+      <div class="item"><b>简介：</b>学院众创空间为湖南省高校大学生创新创业孵化示范基地、省大学生科技创新创业基地，2019年被科技部认定为湖南省众创空间，是衡阳市唯一拥有3个省级创新创业平台的高职院校。团委组建"双创"工作领导小组，通过"青春创业大讲堂"、创业培训等培育创业项目。</div>
+      <div class="res"><div class="t">可获得资源（已核实）</div>
+        <ul>
+          <li><b>竞赛参赛与导师指导：</b>众创空间教授（如黎舜教授、周小琳、王也平老师）带队指导"挑战杯"（2024年斩获两金三铜）；组织"互联网+"、创客中国、黄炎培职业教育奖等双创竞赛。</li>
+          <li><b>项目孵化：</b>对接创业资源、孵化创业项目（二级学院双创部门协同）。</li>
+          <li><b>创业培训：</b>学院每年举办创业培训（2026年创业培训开班典礼）。</li>
+        </ul>
+      </div>
+      <div class="src"><b>信息来源：</b>
+        <a href="https://www.htcrh.com/info/1004/1590.htm">湖南日报70周年专稿（官网转载：众创空间"3个省级创新创业平台"）</a>；
+        <a href="https://www.htcrh.com/tw/info/1050/1154.htm">挑战杯两金三铜（官网团委）</a>；
+        <a href="https://www.htcrh.edu.cn/">官网首页新闻（2026年创业培训开班）</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>八、全校通用资源与制度（适用于上述所有组织成员）</h2>
+    <table>
+      <tr><th style="width:150px;">资源类型</th><th>已核实内容</th><th style="width:230px;">来源</th></tr>
+      <tr><td>第二课堂学分</td><td>全校实施"第二课堂成绩单"制度（到梦空间平台）；活动分思想成长、实践实习、志愿公益、文体活动、创新创业、工作履历、技能培训等类别；二课积分可转化为必修"创业实践"学分；毕业时生成"第二课堂成绩单"供用人单位参考。</td>
+        <td><a href="https://www.htcrh.com/info/1003/4321.htm">官网：第二课堂成绩单培训会</a>；<a href="https://www.sohu.com/a/270205957_684960">学院官方微信</a></td></tr>
+      <tr><td>评优评先</td><td>五四表彰（93个先进集体/584名先进个人，2023）；团内评优评先；省级"百优社团"、"活力社团"；国家级志愿宣讲团、活力社团。</td>
+        <td><a href="https://www.htcrh.com/info/1004/6543.htm">官网五四表彰报道</a></td></tr>
+      <tr><td>技能培训</td><td>团校培训、青年马克思主义者骨干培训（湖南青马在线，学院获优秀组织单位）、新闻宣传培训、勤工助学岗前培训、专业社团实训培训、创业培训。</td>
+        <td><a href="https://www.htcrh.com/tw/info/1051/1122.htm">官网团委通知</a>；<a href="https://www.htcrh.com/info/1003/4343.htm">官网记者站授牌</a></td></tr>
+      <tr><td>竞赛参赛资格</td><td>"挑战杯"（2024省赛两金三铜）、"互联网+"、创客中国、一带一路暨金砖国家技能大赛（机车驾驶协会获全国三等奖）、世界职业院校技能大赛（金奖2项）等；竞赛项目对接国赛标准。</td>
+        <td><a href="https://www.htcrh.com/tw/info/1050/1154.htm">官网团委</a>；<a href="https://bendi.news.163.com/hunan/26/0419/15/KQSTPNH004369D91.html">学院文化育人报道</a></td></tr>
+      <tr><td>实习与就业渠道</td><td>与广铁集团、中铁建、中国中车等200余家企业合作"订单班"培养；"校在站旁"临近衡阳东站，日常实训、企业见习零距离接触高铁运营场景；招生就业处/就业信息网提供就业服务；春运/暑运志愿服务直通铁路一线。</td>
+        <td><a href="https://www.htcrh.com/cyrhgtt/info/1041/1073.htm">官网学院简介</a>；<a href="https://www.htcrh.com/info/1004/1590.htm">官网转载湖南日报</a></td></tr>
+      <tr><td>导师指导</td><td>团委书记、众创空间教授带队竞赛；专业社团设指导老师；学院聘请产业导师、企业技能大师，建有20余个技能大师工作室。</td>
+        <td><a href="https://www.htcrh.com/tw/info/1050/1154.htm">官网团委</a>；<a href="https://www.htcrh.com/tddl/info/1126/2309.htm">官网铁道动力学院</a></td></tr>
+      <tr><td>场地与设备使用</td><td>综合实训基地5个、实训室180个、校外实习实训基地228个（招生宣传口径）；机车模拟驾驶中心、电力机车控制实训室、LKJ-2000监控装置等（协会使用）；图书馆学术报告厅、体育馆等大型活动场地。</td>
+        <td><a href="https://gaokao.chsi.com.cn/sch/schoolInfo--schId-398547,categoryId-398554,mindex-2.dhtml">阳光高考平台院校信息</a>；<a href="https://www.htcrh.com/tddl/info/1126/2309.htm">官网铁道动力学院</a></td></tr>
+      <tr><td>政治发展</td><td>入党积极分子培训班（各二级学院分党校）、学生党务中心、推优入党（团委职责之一"推荐优秀团员作入党积极分子人选"）；五四表彰、优秀团员评选。</td>
+        <td><a href="https://www.htcrh.com/tdjs/info/1110/1720.htm">官网铁道建筑学院</a>；<a href="https://www.htcrh.com/tddx/info/1115/1901.htm">官网铁道电信学院</a></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>九、未能核实事项汇总（重要）</h2>
+    <div class="warn">
+      <p><b>以下信息在公开官方渠道无法查证，请勿视为事实：</b></p>
+      <ul>
+        <li>院学生会（学生联合会）校级部门的完整设置与名单——官网未公开（仅有二级学院层面公开）。</li>
+        <li>学生社团联合会（学社联）的内部架构（秘书处/各部门）及完整社团总名单——未公开。</li>
+        <li>国旗护卫队的组织归口、纳新方式、训练与保障制度——仅有媒体报道佐证存在。</li>
+        <li>大学生艺术团的完整编制（声乐/舞蹈/器乐队伍清单）与日常管理制度。</li>
+        <li>广播站正式名称及组织归属（"院广播站"仅见于晚会报道）。</li>
+        <li>护校队的组织性质与归属（仅见于晚会表演）。</li>
+        <li>"加入某组织可直接获得第二课堂学分/评优加分"的具体细则——学校未公开发布积分兑换明细，二课积分按活动类型记录。</li>
+        <li>各社团当前（2026年）是否仍在运行——建议以各二级学院当年招新公告为准。</li>
+      </ul>
+    </div>
+    <div class="notice">
+      <p><b>口径提醒：</b>奖助学金金额存在两个口径——早期宣传材料（国家奖学金8000元、励志5000元、助学金4400/3300/2200）与2026年单招章程（10000元、6000元、4800/3700/2600）。本报告以最新《2026年高职单独招生章程》为准，具体以学校当年最新公布为准。</p>
+    </div>
+  </section>
+
+  <footer>
+    本报告基于 2026-08-10 公开检索整理 · 官网：www.htcrh.com · 招生信息网：zsxx.htcrh.com<br>
+    所有信息均标注来源，未核实内容已明示，不构成任何夸大或承诺。
+  </footer>
+</div>
+
+<!-- ====== 底部铁轨 + 复兴号列车 ====== -->
+<div class="track-zone" id="trackZone">
+    <div class="gravel"></div>
+    <div class="rail-top"></div>
+    <div class="rail-bottom"></div>
+    <div class="train-wrap" id="trainWrap">
+        <svg class="train-svg" viewBox="0 0 440 76" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="rb-bodyWhite" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#FFFFFF"/><stop offset="55%" stop-color="#F5F5F5"/><stop offset="100%" stop-color="#E0E0E0"/>
+                </linearGradient>
+                <linearGradient id="rb-noseSilver" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#C8CED4"/><stop offset="55%" stop-color="#F2F4F6"/><stop offset="100%" stop-color="#C8CED4"/>
+                </linearGradient>
+                <linearGradient id="rb-window" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0A1929"/><stop offset="100%" stop-color="#1B5E8A"/>
+                </linearGradient>
+            </defs>
+            <path d="M 72 14 L 56 10 Q 36 8 20 17 Q 8 26 2 40 Q 0 48 3 56 Q 8 61 16 63 L 72 63 Z" fill="url(#rb-noseSilver)" stroke="#B0B7BF" stroke-width="0.3"/>
+            <path d="M 368 14 L 384 10 Q 404 8 420 17 Q 432 26 438 40 Q 440 48 437 56 Q 432 61 424 63 L 368 63 Z" fill="url(#rb-noseSilver)" stroke="#B0B7BF" stroke-width="0.3"/>
+            <rect x="72" y="12" width="296" height="51" fill="url(#rb-bodyWhite)"/>
+            <rect x="72" y="20" width="296" height="13" fill="url(#rb-window)"/>
+            <g fill="#D0D6DC" opacity="0.8">
+                <rect x="94" y="20" width="0.5" height="13"/><rect x="118" y="20" width="0.5" height="13"/><rect x="142" y="20" width="0.5" height="13"/>
+                <rect x="166" y="20" width="0.5" height="13"/><rect x="190" y="20" width="0.5" height="13"/><rect x="214" y="20" width="0.5" height="13"/>
+                <rect x="238" y="20" width="0.5" height="13"/><rect x="262" y="20" width="0.5" height="13"/><rect x="286" y="20" width="0.5" height="13"/>
+                <rect x="310" y="20" width="0.5" height="13"/><rect x="334" y="20" width="0.5" height="13"/><rect x="358" y="20" width="0.5" height="13"/>
+            </g>
+            <path d="M 9 24 Q 12 19 22 19 L 48 19 Q 54 19 57 24 L 55 32 Q 50 34 42 34 L 20 34 Q 14 32 9 29 Z" fill="url(#rb-window)"/>
+            <path d="M 11 25 Q 13 21 22 20 L 46 20 Q 51 20 53 23 L 52 28 Q 48 29 42 29 L 22 29 Q 16 28 11 27 Z" fill="#2A5A8C" opacity="0.4"/>
+            <path d="M 431 24 Q 428 19 418 19 L 392 19 Q 386 19 383 24 L 385 32 Q 390 34 398 34 L 420 34 Q 426 32 431 29 Z" fill="url(#rb-window)"/>
+            <path d="M 429 25 Q 427 21 418 20 L 394 20 Q 389 20 387 23 L 388 28 Q 392 29 398 29 L 418 29 Q 424 28 429 27 Z" fill="#2A5A8C" opacity="0.4"/>
+            <rect x="2" y="44" width="436" height="3.5" rx="1.5" fill="#D32F2F"/>
+            <rect x="68" y="57" width="304" height="3" rx="1" fill="#D32F2F"/>
+            <rect x="68" y="47.5" width="304" height="0.8" fill="#C8963E"/>
+            <rect x="68" y="60" width="304" height="0.8" fill="#C8963E"/>
+            <rect x="72" y="28" width="1.2" height="35" fill="#D32F2F" opacity="0.5"/>
+            <rect x="368" y="28" width="1.2" height="35" fill="#D32F2F" opacity="0.5"/>
+            <ellipse cx="4" cy="32" rx="3" ry="4.5" fill="#FFF9C4" opacity="0.95"/>
+            <ellipse cx="4" cy="32" rx="1.8" ry="3" fill="#FFFFFF"/>
+            <ellipse cx="4" cy="52" rx="3" ry="4" fill="#FFF9C4" opacity="0.8"/>
+            <circle cx="4" cy="32" r="7" fill="#FFF9C4" opacity="0.12"/>
+            <ellipse cx="436" cy="32" rx="3" ry="4.5" fill="#FF3D00" opacity="0.95"/>
+            <ellipse cx="436" cy="52" rx="3" ry="4" fill="#FF3D00" opacity="0.85"/>
+            <g stroke="#3A4A5A" stroke-width="0.9" fill="none">
+                <path d="M 180 12 L 180 5 L 195 3 L 210 5 L 250 5 L 265 3 L 280 5 L 280 12"/>
+                <path d="M 185 5 Q 230 -2 275 5"/>
+                <line x1="197" y1="5" x2="197" y2="2"/>
+                <line x1="265" y1="5" x2="265" y2="2"/>
+            </g>
+            <circle cx="197" cy="2.5" r="0.9" fill="#3A4A5A"/>
+            <circle cx="265" cy="2.5" r="0.9" fill="#3A4A5A"/>
+            <rect x="100" y="8" width="34" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="155" y="8" width="20" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="290" y="8" width="28" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="335" y="8" width="34" height="4" rx="0.8" fill="#B0BEC5"/>
+            <rect x="90" y="63" width="44" height="7" rx="1.5" fill="#2E3850"/>
+            <rect x="200" y="63" width="44" height="7" rx="1.5" fill="#2E3850"/>
+            <rect x="310" y="63" width="44" height="7" rx="1.5" fill="#2E3850"/>
+            <line x1="90" y1="66" x2="134" y2="66" stroke="#556070" stroke-width="0.3"/>
+            <line x1="200" y1="66" x2="244" y2="66" stroke="#556070" stroke-width="0.3"/>
+            <line x1="310" y1="66" x2="354" y2="66" stroke="#556070" stroke-width="0.3"/>
+            <g fill="#1C252A">
+                <circle cx="98" cy="72" r="3.2"/><circle cx="112" cy="72" r="3.2"/><circle cx="126" cy="72" r="3.2"/>
+                <circle cx="208" cy="72" r="3.2"/><circle cx="222" cy="72" r="3.2"/><circle cx="236" cy="72" r="3.2"/>
+                <circle cx="318" cy="72" r="3.2"/><circle cx="332" cy="72" r="3.2"/><circle cx="346" cy="72" r="3.2"/>
+            </g>
+            <g fill="#556070">
+                <circle cx="98" cy="71" r="0.8"/><circle cx="112" cy="71" r="0.8"/><circle cx="126" cy="71" r="0.8"/>
+                <circle cx="208" cy="71" r="0.8"/><circle cx="222" cy="71" r="0.8"/><circle cx="236" cy="71" r="0.8"/>
+                <circle cx="318" cy="71" r="0.8"/><circle cx="332" cy="71" r="0.8"/><circle cx="346" cy="71" r="0.8"/>
+            </g>
+            <rect x="2" y="62" width="436" height="1.5" fill="#000" opacity="0.06"/>
+            <text x="170" y="52" font-size="6.5" fill="#D32F2F" font-weight="800" font-family="sans-serif" text-anchor="middle" letter-spacing="0.8">复兴号</text>
+            <text x="278" y="52" font-size="5.5" fill="#1B3A5C" font-weight="700" font-family="sans-serif" text-anchor="middle" letter-spacing="0.5">CR400AF</text>
+        </svg>
+    </div>
+</div>
+
+<script>
+// 底部铁轨枕木生成 + 复兴号列车随滚动行进
+function buildTrack(){
+    const zone = document.getElementById('trackZone');
+    const vw = window.innerWidth;
+    let html = '';
+    for(let x=20;x<vw;x+=28){ html += '<div class="sleeper" style="left:'+x+'px;"></div>'; }
+    zone.insertAdjacentHTML('afterbegin', html);
+}
+function updateTrain(){
+    const vh = document.documentElement.clientHeight;
+    const sh = document.documentElement.scrollHeight;
+    const st = window.scrollY;
+    const progress = Math.min(st / (sh - vh), 1);
+    const train = document.getElementById('trainWrap');
+    train.style.transform = 'translateX(' + (progress * (window.innerWidth - 460)) + 'px)';
+}
+buildTrack();
+window.addEventListener('scroll', updateTrain, {passive:true});
+window.addEventListener('resize', updateTrain);
+updateTrain();
+</script>
+</body>
+</html>
